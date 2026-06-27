@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 1200 1000" role="img" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+<title>Component / Architecture Diagram — DEICMS</title><desc>Layered component diagram of the Flask application showing the security middleware, route blueprints (including the new admin and export), the logic modules (including the new encryption and validation modules), the ORM models, and the encrypted data stores.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#6B6B66" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker><marker id="tarrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#1D9E75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect x="0" y="0" width="1200" height="1000" fill="#FFFFFF"/>
+<text x="40" y="34" font-size="18" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">Component &amp; Architecture Diagram — DEICMS</text>
+<text x="40" y="56" font-size="11" fill="#6B6B66" text-anchor="start" font-weight="400" dominant-baseline="central">Green components were added for the new security features.</text>
+<rect x="470" y="78" width="260" height="52" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="600.0" y="104.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">Web Browser</text>
+<line x1="600" y1="130" x2="600" y2="180" stroke="#1D9E75" stroke-width="1.6" marker-end="url(#tarrow)"/>
+<text x="612" y="158" font-size="10" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">HTTPS  :5001  (self-signed TLS cert)</text>
+<rect x="40" y="180" width="1120" height="560" fill="#FFFFFF" rx="8" stroke="#AFA9EC" stroke-width="1.3" stroke-dasharray="4 3"/>
+<text x="52" y="194" font-size="11" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">DEICMS Flask Application  ·  create_app() factory</text>
+<rect x="60" y="210" width="1080" height="70" fill="#FFFFFF" rx="8" stroke="#AFA9EC" stroke-width="1.3" stroke-dasharray="4 3"/>
+<text x="72" y="224" font-size="11" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">Security middleware (cross-cutting)</text>
+<rect x="72" y="236" width="168" height="34" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="156.0" y="253.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">CSRFProtect</text>
+<rect x="250" y="236" width="168" height="34" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="334.0" y="253.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">Flask-Limiter</text>
+<rect x="428" y="236" width="168" height="34" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="512.0" y="253.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">Flask-Login</text>
+<rect x="606" y="236" width="168" height="34" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="690.0" y="253.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">Secure cookie + HSTS</text>
+<rect x="784" y="236" width="168" height="34" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="868.0" y="253.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">Idle-session timeout</text>
+<rect x="962" y="236" width="168" height="34" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="1046.0" y="253.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">TLS / HTTPS</text>
+<rect x="60" y="296" width="1080" height="118" fill="#FFFFFF" rx="8" stroke="#AFA9EC" stroke-width="1.3" stroke-dasharray="4 3"/>
+<text x="72" y="310" font-size="11" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">Presentation layer — route Blueprints</text>
+<rect x="72" y="322" width="205" height="34" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="174.5" y="339.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">auth  (+ 2FA / OTP)</text>
+<rect x="286" y="322" width="205" height="34" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="388.5" y="339.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">cases</text>
+<rect x="500" y="322" width="205" height="34" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="602.5" y="339.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">evidence</text>
+<rect x="714" y="322" width="205" height="34" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="816.5" y="339.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">custody</text>
+<rect x="928" y="322" width="205" height="34" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="1030.5" y="339.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">dashboard</text>
+<rect x="72" y="366" width="205" height="34" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="174.5" y="383.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">audit</text>
+<rect x="286" y="366" width="205" height="34" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="388.5" y="383.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">risk</text>
+<rect x="500" y="366" width="205" height="34" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="602.5" y="383.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">assistant</text>
+<rect x="714" y="366" width="205" height="34" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="816.5" y="383.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">admin</text>
+<rect x="928" y="366" width="205" height="34" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="1030.5" y="383.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">export</text>
+<rect x="60" y="430" width="1080" height="180" fill="#FFFFFF" rx="8" stroke="#AFA9EC" stroke-width="1.3" stroke-dasharray="4 3"/>
+<text x="72" y="444" font-size="11" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">Logic layer — algorithms &amp; security modules</text>
+<rect x="72" y="456" width="256" height="38" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="200.0" y="475.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">crypto  (Ed25519 + Fernet)</text>
+<rect x="340" y="456" width="256" height="38" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="468.0" y="475.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">file_crypto  (AES-256-GCM)</text>
+<rect x="608" y="456" width="256" height="38" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="736.0" y="475.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">keyderive</text>
+<rect x="876" y="456" width="256" height="38" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="1004.0" y="475.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">validators  (password policy)</text>
+<rect x="72" y="504" width="256" height="38" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="200.0" y="523.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">graph_integrity</text>
+<rect x="340" y="504" width="256" height="38" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="468.0" y="523.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">state_machine</text>
+<rect x="608" y="504" width="256" height="38" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="736.0" y="523.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">risk_scoring</text>
+<rect x="876" y="504" width="256" height="38" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="1004.0" y="523.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">anomaly_detection</text>
+<rect x="72" y="552" width="256" height="38" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="200.0" y="571.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">chain_reconstruction</text>
+<rect x="340" y="552" width="256" height="38" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="468.0" y="571.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">audit_formulas</text>
+<rect x="608" y="552" width="256" height="38" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="736.0" y="571.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">ai_assistant</text>
+<rect x="60" y="624" width="1080" height="98" fill="#FFFFFF" rx="8" stroke="#AFA9EC" stroke-width="1.3" stroke-dasharray="4 3"/>
+<text x="72" y="638" font-size="11" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">Data model — SQLAlchemy ORM</text>
+<rect x="72" y="650" width="168" height="34" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="156.0" y="667.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">Investigator</text>
+<rect x="250" y="650" width="168" height="34" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="334.0" y="667.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">Case</text>
+<rect x="428" y="650" width="168" height="34" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="512.0" y="667.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">EvidenceItem</text>
+<rect x="606" y="650" width="168" height="34" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="690.0" y="667.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">CustodyLog</text>
+<rect x="784" y="650" width="168" height="34" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="868.0" y="667.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">AuditRecord</text>
+<rect x="962" y="650" width="168" height="34" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="1046.0" y="667.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">CaseAccess</text>
+<text x="72" y="706" font-size="10" fill="#6B6B66" text-anchor="start" font-weight="400" dominant-baseline="central">Investigator stores Fernet-encrypted private keys + TOTP secret + lockout fields</text>
+<rect x="40" y="760" width="720" height="200" fill="#FFFFFF" rx="8" stroke="#AFA9EC" stroke-width="1.3" stroke-dasharray="4 3"/>
+<text x="52" y="774" font-size="11" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">Data stores (at rest)</text>
+<rect x="70" y="800" width="300" height="120" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="220.0" y="853.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">SQLite  ·  deicms.db</text>
+<text x="220.0" y="868.0" font-size="8.5" fill="#6B6B66" text-anchor="middle" font-weight="400" dominant-baseline="central">private keys encrypted (Fernet)</text>
+<rect x="420" y="800" width="300" height="120" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="570.0" y="853.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">uploads/  ·  evidence files</text>
+<text x="570.0" y="868.0" font-size="8.5" fill="#6B6B66" text-anchor="middle" font-weight="400" dominant-baseline="central">encrypted with AES-256-GCM</text>
+<rect x="800" y="760" width="360" height="200" fill="#FFFFFF" rx="8" stroke="#AFA9EC" stroke-width="1.3" stroke-dasharray="4 3"/>
+<text x="812" y="774" font-size="11" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">External service</text>
+<rect x="830" y="810" width="300" height="90" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="980.0" y="855.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">NVIDIA NIM API</text>
+<line x1="400" y1="740" x2="400" y2="800" stroke="#6B6B66" stroke-width="1.4" marker-end="url(#arrow)"/>
+<line x1="560" y1="740" x2="560" y2="800" stroke="#6B6B66" stroke-width="1.4" marker-end="url(#arrow)"/>
+<line x1="980" y1="610" x2="980" y2="810" stroke="#6B6B66" stroke-width="1.4" marker-end="url(#arrow)"/>
+<text x="992" y="700" font-size="9" fill="#6B6B66" text-anchor="start" font-weight="400" dominant-baseline="central">assistant</text>
+</svg>

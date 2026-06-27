@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Upload Evidence — DEICMS{% endblock %}
+{% block content %}
+<div class="topbar">
+  <span class="page-title"><i class="bi bi-upload me-2"></i>Upload Evidence</span>
+  <a href="{{ url_for('cases.view_case', case_id=case.id) }}" class="btn btn-outline-secondary btn-sm">
+    Back to {{ case.case_number }}
+  </a>
+</div>
+
+<div class="card" style="max-width:640px;">
+  <div class="card-body p-4">
+    <form method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+      <div class="mb-3">
+        <label class="form-label fw-semibold small">Evidence Title <span class="text-danger">*</span></label>
+        <input type="text" name="title" class="form-control" placeholder="e.g. Suspect Hard Drive Image" required/>
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold small">Description</label>
+        <textarea name="description" class="form-control" rows="2" placeholder="Brief description..."></textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold small">Category</label>
+        <select name="category" class="form-select">
+          {% for c in ['Image','Video','Audio','Document','Database','Log File','Other'] %}
+          <option value="{{ c }}">{{ c }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold small">Collection Location</label>
+        <input type="text" name="location" class="form-control" placeholder="e.g. Suspect's office, Room 3B"/>
+      </div>
+      <div class="mb-4">
+        <label class="form-label fw-semibold small">Evidence File <span class="text-danger">*</span></label>
+        <input type="file" name="file" class="form-control" required/>
+        <div class="form-text">Max 500 MB. Supported: images, video, audio, documents, databases, logs.</div>
+      </div>
+      <div class="alert alert-info py-2 small">
+        <i class="bi bi-info-circle me-1"></i>
+        A SHA-256 hash will be computed automatically after upload to establish the integrity baseline.
+      </div>
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary fw-semibold">
+          <i class="bi bi-upload me-1"></i>Upload Evidence
+        </button>
+        <a href="{{ url_for('cases.view_case', case_id=case.id) }}" class="btn btn-outline-secondary">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

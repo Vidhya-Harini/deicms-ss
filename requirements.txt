@@ -1,0 +1,15 @@
+flask
+flask-sqlalchemy
+flask-login
+flask-wtf
+flask-limiter
+cryptography
+pillow
+python-magic-bin
+pytest
+pytest-cov
+anthropic
+scikit-learn
+reportlab
+pyotp
+qrcode

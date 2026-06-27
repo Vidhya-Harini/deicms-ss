@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block title %}Chain Reconstruction — {{ evidence.evidence_number }}{% endblock %}
+{% block content %}
+<div class="topbar">
+  <span class="page-title">
+    <i class="bi bi-diagram-3 me-2"></i>Chain Reconstruction: {{ evidence.evidence_number }}
+  </span>
+  <a href="{{ url_for('evidence.view_evidence', case_id=evidence.case_id, evidence_id=evidence.id) }}"
+     class="btn btn-outline-secondary btn-sm">Back</a>
+</div>
+
+<!-- Confidence banner -->
+{% set score = report.chain_confidence_score %}
+{% if score == 100 %}
+  <div class="alert alert-success rounded-3 mb-4">
+    <i class="bi bi-check-circle me-2"></i>
+    <strong>Chain fully confirmed.</strong> All {{ report.total_expected_links }} links are verified with no gaps.
+  </div>
+{% elif score >= 70 %}
+  <div class="alert alert-warning rounded-3 mb-4">
+    <i class="bi bi-exclamation-triangle me-2"></i>
+    <strong>Chain partially reconstructed.</strong>
+    Confidence: <strong>{{ score }}%</strong>.
+    {{ report.inferred_links }} link(s) inferred, {{ report.unresolved_gaps }} unresolved.
+  </div>
+{% else %}
+  <div class="alert alert-danger rounded-3 mb-4">
+    <i class="bi bi-x-circle me-2"></i>
+    <strong>Low confidence reconstruction.</strong>
+    Confidence: <strong>{{ score }}%</strong>.
+    {{ report.unresolved_gaps }} gap(s) could not be resolved.
+  </div>
+{% endif %}
+
+<style>
+  .recon-stat-card {
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.015);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .recon-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
+  }
+</style>
+
+<!-- Stats row -->
+<div class="row g-3 mb-4">
+  {% for label, value, bg_colour, border_colour, text_colour, label_colour in [
+    ('Total Links', report.total_expected_links, 'EBF2F2', 'B8CBC9', '2D3B3A', '5A6E6C'),
+    ('Confirmed', report.confirmed_links, 'E1FAF4', 'B2EBE0', '1E6B58', '2D7A66'),
+    ('Inferred', report.inferred_links, 'FFF6E9', 'F3DFBF', '96691E', '855E1C'),
+    ('Unresolved', report.unresolved_gaps, 'FFF0F0', 'FCD4D4', 'B23E3E', 'A03737')
+  ] %}
+  <div class="col-md-3">
+    <div class="recon-stat-card" style="background:#{{ bg_colour }}; border: 1px solid #{{ border_colour }};">
+      <div class="stat-number" style="font-size: 2rem; font-family: 'DM Sans', sans-serif; font-weight: 700; color:#{{ text_colour }}; line-height: 1;">{{ value }}</div>
+      <div class="stat-label" style="font-size: 0.8rem; color:#{{ label_colour }}; font-weight: 600; margin-top: 6px;">{{ label }}</div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- Reconstructed chain timeline -->
+<div class="card">
+  <div class="card-header py-3"><i class="bi bi-diagram-3 me-2"></i>Reconstructed Custody Chain</div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>#</th><th>Event</th><th>Investigator</th>
+            <th>Label</th><th>Confidence</th><th>Timestamp</th><th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for link in report.reconstructed_chain %}
+          <tr class="{% if link.label == 'Unresolved' %}table-danger{% elif link.label == 'Inferred' %}table-warning{% endif %}">
+            <td class="text-muted small">{{ link.position + 1 }}</td>
+            <td><span class="badge bg-secondary">{{ link.event_type }}</span></td>
+            <td class="small fw-semibold">{{ link.investigator_name }}</td>
+            <td>
+              {% if link.label == 'Confirmed' %}
+                <span class="badge bg-success">Confirmed</span>
+              {% elif link.label == 'Inferred' %}
+                <span class="badge bg-warning text-dark">Inferred</span>
+              {% else %}
+                <span class="badge bg-danger">Unresolved</span>
+              {% endif %}
+            </td>
+            <td>
+              <div class="progress" style="height:8px;width:80px;">
+                <div class="progress-bar
+                  {% if link.confidence >= 0.7 %}bg-success
+                  {% elif link.confidence >= 0.4 %}bg-warning
+                  {% else %}bg-danger{% endif %}"
+                  style="width:{{ (link.confidence * 100)|int }}%"></div>
+              </div>
+              <small class="text-muted">{{ (link.confidence * 100)|int }}%</small>
+            </td>
+            <td class="small text-muted">{{ link.timestamp[:16] if link.timestamp is string else link.timestamp.strftime('%d %b %Y %H:%M') }}</td>
+            <td class="small text-muted" style="max-width:200px;">
+              {{ link.inferred_reason[:80] if link.inferred_reason else '' }}
+              {% if link.inferred_reason and link.inferred_reason|length > 80 %}...{% endif %}
+            </td>
+          </tr>
+          {% else %}
+          <tr><td colspan="7" class="text-center text-muted py-3">No chain data available.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

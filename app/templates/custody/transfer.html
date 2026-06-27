@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Transfer Evidence — DEICMS{% endblock %}
+{% block content %}
+<div class="topbar">
+  <span class="page-title">Transfer Evidence</span>
+  <a href="{{ url_for('evidence.view_evidence', case_id=evidence.case_id, evidence_id=evidence.id) }}"
+     class="btn btn-outline-secondary btn-sm">Back</a>
+</div>
+
+<div class="card" style="max-width:560px;">
+  <div class="card-body p-4">
+    <div class="alert alert-info py-2 small mb-4">
+      <i class="bi bi-info-circle me-1"></i>
+      Transferring <strong>{{ evidence.evidence_number }}: {{ evidence.title }}</strong>.
+      Current holder: <strong>{{ evidence.current_holder.full_name if evidence.current_holder else 'Unknown' }}</strong>.
+    </div>
+    <form method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+      <div class="mb-3">
+        <label class="form-label fw-semibold small">Transfer To <span class="text-danger">*</span></label>
+        <select name="to_investigator_id" class="form-select" required>
+          <option value="">— Select Investigator —</option>
+          {% for inv in investigators %}
+          <option value="{{ inv.id }}">{{ inv.full_name }} ({{ inv.role }})</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold small">Reason for Transfer</label>
+        <textarea name="reason" class="form-control" rows="2"
+                  placeholder="e.g. Handing over for lab analysis"></textarea>
+      </div>
+      <div class="mb-4">
+        <label class="form-label fw-semibold small">Transfer Location</label>
+        <input type="text" name="location" class="form-control"
+               placeholder="e.g. Forensic Lab, Building A"/>
+      </div>
+      <button type="submit" class="btn btn-primary fw-semibold">
+        Confirm Transfer
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

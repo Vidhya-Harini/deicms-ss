@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% block title %}Integrity Report — {{ evidence.evidence_number }}{% endblock %}
+{% block content %}
+<div class="topbar">
+  <span class="page-title">
+    <i class="bi bi-shield-check me-2"></i>Integrity Verification: {{ evidence.evidence_number }}
+  </span>
+  <a href="{{ url_for('evidence.view_evidence', case_id=evidence.case_id, evidence_id=evidence.id) }}"
+     class="btn btn-outline-secondary btn-sm">Back</a>
+</div>
+
+<!-- Verdict banner -->
+{% if report.verdict == 'Intact' %}
+<div class="alert alert-success d-flex align-items-center gap-3 mb-4 rounded-3">
+  <i class="bi bi-shield-check" style="font-size:2rem;"></i>
+  <div>
+    <div class="fw-bold fs-5">Chain Intact</div>
+    <div class="small">All {{ report.total_nodes }} custody nodes verified successfully.
+      Chain completeness: <strong>{{ report.completeness_score }}%</strong></div>
+  </div>
+</div>
+{% elif report.verdict == 'Partially Verified' %}
+<div class="alert alert-warning d-flex align-items-center gap-3 mb-4 rounded-3">
+  <i class="bi bi-shield-exclamation" style="font-size:2rem;"></i>
+  <div>
+    <div class="fw-bold fs-5">Partially Verified</div>
+    <div class="small">{{ report.verified_nodes }} of {{ report.total_nodes }} nodes verified.
+      Chain completeness: <strong>{{ report.completeness_score }}%</strong>.
+      {{ report.failures|length }} failure(s) detected.</div>
+  </div>
+</div>
+{% else %}
+<div class="alert alert-danger d-flex align-items-center gap-3 mb-4 rounded-3">
+  <i class="bi bi-shield-x" style="font-size:2rem;"></i>
+  <div>
+    <div class="fw-bold fs-5">Chain Broken</div>
+    <div class="small">Integrity verification failed.
+      Chain completeness: <strong>{{ report.completeness_score }}%</strong>.
+      Evidence has been automatically flagged.</div>
+  </div>
+</div>
+{% endif %}
+
+<div class="row g-3">
+  <!-- Summary stats -->
+  <div class="col-md-4">
+    <div class="card h-100">
+      <div class="card-header py-3"><i class="bi bi-bar-chart me-2"></i>Summary</div>
+      <div class="card-body">
+        {% for label, value in [
+          ('Total Nodes', report.total_nodes),
+          ('Verified Nodes', report.verified_nodes),
+          ('Failed Nodes', report.failures|length),
+          ('Completeness', report.completeness_score|string + '%')
+        ] %}
+        <div class="d-flex justify-content-between py-2 border-bottom">
+          <span class="text-muted small">{{ label }}</span>
+          <span class="fw-semibold small">{{ value }}</span>
+        </div>
+        {% endfor %}
+        <div class="d-flex justify-content-between py-2">
+          <span class="text-muted small">Ran At</span>
+          <span class="small">{{ report.ran_at.strftime('%d %b %Y %H:%M') if report.ran_at is not string else report.ran_at[:16] }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Failures -->
+  <div class="col-md-8">
+    <div class="card h-100">
+      <div class="card-header py-3">
+        <i class="bi bi-exclamation-triangle me-2 text-danger"></i>Failures Detected
+      </div>
+      <div class="card-body p-0">
+        {% if report.failures %}
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead class="table-light">
+              <tr><th>Node ID</th><th>Event</th><th>Failure Type</th><th>Detail</th></tr>
+            </thead>
+            <tbody>
+              {% for failure in report.failures %}
+              <tr>
+                <td class="small"><code>{{ failure.node_id }}</code></td>
+                <td><span class="badge bg-secondary">{{ failure.event_type }}</span></td>
+                <td>
+                  {% if failure.failure_type == 'hash_mismatch' %}
+                    <span class="badge bg-danger">Hash Mismatch</span>
+                  {% elif failure.failure_type == 'invalid_signature' %}
+                    <span class="badge bg-warning text-dark">Invalid Signature</span>
+                  {% elif failure.failure_type == 'timestamp_anomaly' %}
+                    <span class="badge bg-info text-dark">Timestamp Anomaly</span>
+                  {% else %}
+                    <span class="badge bg-secondary">{{ failure.failure_type }}</span>
+                  {% endif %}
+                </td>
+                <td class="small text-muted">{{ failure.detail }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <div class="text-center text-muted py-4">
+          <i class="bi bi-check-circle text-success" style="font-size:2rem;"></i>
+          <p class="mt-2 mb-0 small">No failures detected.</p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Verified timeline -->
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header py-3"><i class="bi bi-diagram-3 me-2"></i>Custody Node Timeline</div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead class="table-light">
+              <tr><th>Position</th><th>Node ID</th><th>Event</th><th>Status</th><th>Timestamp</th></tr>
+            </thead>
+            <tbody>
+              {% for node in report.verified_timeline %}
+              <tr>
+                <td class="text-muted small">{{ loop.index }}</td>
+                <td><code>{{ node.node_id }}</code></td>
+                <td><span class="badge bg-secondary">{{ node.event_type }}</span></td>
+                <td>
+                  {% if node.status == 'verified' %}
+                    <span class="badge bg-success">Verified</span>
+                  {% else %}
+                    <span class="badge bg-danger">Failed</span>
+                  {% endif %}
+                </td>
+                <td class="text-muted small">{{ node.timestamp[:19] }}</td>
+              </tr>
+              {% else %}
+              <tr><td colspan="5" class="text-center text-muted py-3">No timeline data available.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,450 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — DEICMS{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-3">
+
+  <!-- ── Page header ──────────────────────────────────────────────────────── -->
+  <div class="topbar mb-4">
+    <span class="page-title">
+      <i class="bi bi-speedometer2 me-2"></i>Dashboard
+    </span>
+    <small class="text-muted">
+      Welcome back, <strong>{{ current_user.full_name }}</strong>
+      <span class="badge bg-secondary ms-1">{{ current_user.role }}</span>
+    </small>
+  </div>
+
+  <!-- ── Stat cards row ───────────────────────────────────────────────────── -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-xl-3">
+      <div class="stat-card accent-blue">
+        <i class="bi bi-folder2-open stat-icon"></i>
+        <div class="stat-number">{{ total_cases }}</div>
+        <div class="stat-label">Total Cases</div>
+      </div>
+    </div>
+    <div class="col-6 col-xl-3">
+      <div class="stat-card accent-teal">
+        <i class="bi bi-file-earmark-lock2 stat-icon"></i>
+        <div class="stat-number">{{ total_evidence }}</div>
+        <div class="stat-label">Evidence Items</div>
+      </div>
+    </div>
+    <div class="col-6 col-xl-3">
+      <div class="stat-card accent-amber">
+        <i class="bi bi-shuffle stat-icon"></i>
+        <div class="stat-number">{{ total_transfers }}</div>
+        <div class="stat-label">Custody Transfers</div>
+      </div>
+    </div>
+    <div class="col-6 col-xl-3">
+      <div class="stat-card accent-purple">
+        <i class="bi bi-journal-check stat-icon"></i>
+        <div class="stat-number">{{ total_audits }}</div>
+        <div class="stat-label">Audit Records</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Analytics / visualisations ───────────────────────────────────────── -->
+  <div class="row g-4 mb-4">
+    <div class="col-lg-5">
+      <div class="card shadow-sm h-100">
+        <div class="card-header">
+          <i class="bi bi-pie-chart me-2"></i>Evidence Risk Distribution
+        </div>
+        <div class="card-body">
+          <div style="height:260px;"><canvas id="riskChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-7">
+      <div class="card shadow-sm h-100">
+        <div class="card-header">
+          <i class="bi bi-bar-chart-steps me-2"></i>Evidence Lifecycle States
+        </div>
+        <div class="card-body">
+          <div style="height:260px;"><canvas id="lifecycleChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-lg-7">
+      <div class="card shadow-sm h-100">
+        <div class="card-header">
+          <i class="bi bi-graph-up me-2"></i>Security Activity — Last 30 Days
+        </div>
+        <div class="card-body">
+          <div style="height:260px;"><canvas id="activityChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <div class="card shadow-sm h-100">
+        <div class="card-header">
+          <i class="bi bi-clipboard-data me-2"></i>Audit Events by Type
+        </div>
+        <div class="card-body">
+          <div style="height:260px;"><canvas id="auditChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Integrity summary bar ────────────────────────────────────────────── -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header">
+      <i class="bi bi-shield-check me-2"></i>Evidence Integrity Overview
+    </div>
+    <div class="card-body">
+      {% set total_ev = integrity_counts.VERIFIED
+                      + integrity_counts.NOT_CHECKED
+                      + integrity_counts.FAILED %}
+      {% if total_ev == 0 %}
+        <p class="text-muted mb-0">No evidence items yet.</p>
+      {% else %}
+        <div class="row text-center mb-3">
+          <div class="col-4">
+            <div class="fs-3 fw-bold text-success">{{ integrity_counts.VERIFIED }}</div>
+            <div class="small text-muted">Verified</div>
+          </div>
+          <div class="col-4">
+            <div class="fs-3 fw-bold text-warning">{{ integrity_counts.NOT_CHECKED }}</div>
+            <div class="small text-muted">Not Checked</div>
+          </div>
+          <div class="col-4">
+            <div class="fs-3 fw-bold text-danger">{{ integrity_counts.FAILED }}</div>
+            <div class="small text-muted">Failed</div>
+          </div>
+        </div>
+        {% set v_pct  = ((integrity_counts.VERIFIED    / total_ev) * 100) | int %}
+        {% set nc_pct = ((integrity_counts.NOT_CHECKED / total_ev) * 100) | int %}
+        {% set f_pct  = ((integrity_counts.FAILED      / total_ev) * 100) | int %}
+        <div class="progress" style="height:22px;border-radius:8px;">
+          <div class="progress-bar bg-success fw-bold"
+               style="width:{{ v_pct }}%"
+               title="Verified: {{ integrity_counts.VERIFIED }}">
+            {% if v_pct > 8 %}{{ v_pct }}%{% endif %}
+          </div>
+          <div class="progress-bar bg-warning fw-bold"
+               style="width:{{ nc_pct }}%"
+               title="Not Checked: {{ integrity_counts.NOT_CHECKED }}">
+            {% if nc_pct > 8 %}{{ nc_pct }}%{% endif %}
+          </div>
+          <div class="progress-bar bg-danger fw-bold"
+               style="width:{{ f_pct }}%"
+               title="Failed: {{ integrity_counts.FAILED }}">
+            {% if f_pct > 8 %}{{ f_pct }}%{% endif %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- ── Main content: two-column layout ──────────────────────────────────── -->
+  <div class="row g-4">
+
+    <!-- Left column: Risk-ranked evidence ──────────────────────────────────── -->
+    <div class="col-lg-7">
+      <div class="card shadow-sm h-100">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span><i class="bi bi-shield-exclamation me-2"></i>Top 5 Highest-Risk Evidence</span>
+          <a href="{{ url_for('risk.risk_dashboard') }}"
+             class="btn btn-sm btn-outline-primary">Full Risk Dashboard</a>
+        </div>
+        <div class="card-body p-0">
+          {% if not top_risk_evidence %}
+            <p class="text-muted p-3 mb-0">No evidence items found.</p>
+          {% else %}
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Evidence</th>
+                <th>Case</th>
+                <th>Risk Level</th>
+                <th style="min-width:120px;">Score</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in top_risk_evidence %}
+              {% set ev    = item.evidence %}
+              {% set level = item.level %}
+              {% set score = item.score %}
+              {% set color_map = {
+                'LOW':      'success',
+                'MEDIUM':   'warning',
+                'HIGH':     'danger',
+                'CRITICAL': 'dark',
+                'UNKNOWN':  'secondary'
+              } %}
+              <tr>
+                <td>
+                  <a href="{{ url_for('evidence.view_evidence', case_id=ev.case_id, evidence_id=ev.id) }}">
+                    #{{ ev.id }} {{ ev.title }}
+                  </a>
+                </td>
+                <td>
+                  <a href="{{ url_for('cases.view_case', case_id=ev.case_id) }}">
+                    #{{ ev.case_id }}
+                  </a>
+                </td>
+                <td>
+                  <span class="risk-badge level-{{ level | lower }}">
+                    {{ level }}
+                  </span>
+                </td>
+                <td>
+                  {% set pct = (score * 100) | int %}
+                  <div class="progress" style="height:16px;">
+                    <div class="progress-bar bg-{{ color_map.get(level, 'secondary') }}"
+                         style="width:{{ pct }}%">
+                      {{ '%.3f' | format(score) }}
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <a href="{{ url_for('risk.evidence_risk', evidence_id=ev.id) }}"
+                     class="btn btn-sm btn-outline-secondary">Report</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Right column: Recent cases + recent audits ──────────────────────────── -->
+    <div class="col-lg-5 d-flex flex-column gap-4">
+
+      <!-- Recent cases -->
+      <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span><i class="bi bi-folder2-open me-2"></i>Recent Cases</span>
+          <a href="{{ url_for('cases.list_cases') }}"
+             class="btn btn-sm btn-outline-primary">All Cases</a>
+        </div>
+        <ul class="list-group list-group-flush">
+          {% if not recent_cases %}
+            <li class="list-group-item text-muted">No cases yet.</li>
+          {% else %}
+            {% for case in recent_cases %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <a href="{{ url_for('cases.view_case', case_id=case.id) }}"
+                   class="fw-semibold text-decoration-none">
+                  {{ case.title }}
+                </a>
+                <br>
+                <small class="text-muted">
+                  {{ case.created_at.strftime('%Y-%m-%d') }}
+                  &nbsp;·&nbsp; {{ case.evidence_items.count() }} item(s)
+                </small>
+              </div>
+              {% set st_color = {
+                'OPEN':   'success',
+                'CLOSED': 'secondary',
+                'PENDING':'warning'
+              } %}
+              <span class="badge bg-{{ st_color.get(case.status, 'secondary') }}">
+                {{ case.status }}
+              </span>
+            </li>
+            {% endfor %}
+          {% endif %}
+        </ul>
+      </div>
+
+      {% if current_user.is_admin() %}
+      <!-- Recent audit records (global trail — Admin only) -->
+      <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span><i class="bi bi-journal-text me-2"></i>Recent Audit Activity</span>
+          <a href="{{ url_for('audit.audit_trail') }}"
+             class="btn btn-sm btn-outline-primary">Full Trail</a>
+        </div>
+        <ul class="list-group list-group-flush">
+          {% if not recent_audits %}
+            <li class="list-group-item text-muted">No audit records yet.</li>
+          {% else %}
+            {% for rec in recent_audits %}
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge bg-secondary badge-state me-2" style="font-size:.7rem;">
+                  {{ rec.event_type }}
+                </span>
+                <small class="text-muted">
+                  {{ rec.timestamp.strftime('%Y-%m-%d %H:%M') }}
+                </small>
+              </div>
+              {% if rec.description %}
+                <small class="text-muted d-block mt-1">{{ rec.description[:80] }}{% if rec.description|length > 80 %}…{% endif %}</small>
+              {% endif %}
+            </li>
+            {% endfor %}
+          {% endif %}
+        </ul>
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+
+  <!-- ── Quick-action buttons ──────────────────────────────────────────────── -->
+  <div class="card mt-4 shadow-sm">
+    <div class="card-header">
+      <i class="bi bi-lightning-charge me-2"></i>Quick Actions
+    </div>
+    <div class="card-body d-flex flex-wrap gap-2">
+      <a href="{{ url_for('cases.create_case') }}"
+         class="btn btn-primary">
+        <i class="bi bi-plus-circle me-1"></i>New Case
+      </a>
+      <a href="{{ url_for('risk.risk_dashboard') }}"
+         class="btn btn-warning">
+        <i class="bi bi-shield-exclamation me-1"></i>Risk Dashboard
+      </a>
+      <a href="{{ url_for('risk.anomaly_dashboard') }}"
+         class="btn btn-info text-white">
+        <i class="bi bi-robot me-1"></i>Anomaly Detection
+      </a>
+      <a href="{{ url_for('assistant.chat_page') }}"
+         class="btn btn-success">
+        <i class="bi bi-chat-dots me-1"></i>AI Assistant
+      </a>
+      {% if current_user.is_admin() %}
+      <a href="{{ url_for('audit.audit_trail') }}"
+         class="btn btn-secondary">
+        <i class="bi bi-journal-text me-1"></i>Audit Trail
+      </a>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+
+<!-- Chart.js (CDN) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+(function () {
+  if (typeof Chart === 'undefined') return;
+
+  // ── DEICMS palette (matches the app theme) ──────────────────────────────
+  const C = {
+    green:  '#2D8A6A',
+    teal:   '#3DBFA0',
+    blue:   '#4A90D9',
+    amber:  '#D4882A',
+    purple: '#7B68BE',
+    red:    '#C85050',
+    dark:   '#2D3B3A',
+    grid:   '#EBE8E3',
+    muted:  '#7A756E'
+  };
+
+  Chart.defaults.font.family = "'Source Sans 3', sans-serif";
+  Chart.defaults.color = C.muted;
+
+  // Data passed from Flask
+  const D = {
+    riskLabels:      {{ charts.risk_labels | tojson }},
+    riskValues:      {{ charts.risk_values | tojson }},
+    lifeLabels:      {{ charts.lifecycle_labels | tojson }},
+    lifeValues:      {{ charts.lifecycle_values | tojson }},
+    auditLabels:     {{ charts.audit_labels | tojson }},
+    auditValues:     {{ charts.audit_values | tojson }},
+    actLabels:       {{ charts.activity_labels | tojson }},
+    actSuccess:      {{ charts.activity_success | tojson }},
+    actAlerts:       {{ charts.activity_alerts | tojson }}
+  };
+
+  // 1) Risk distribution — doughnut (Low / Medium / High)
+  const riskColors = { 'LOW': C.green, 'MEDIUM': C.amber, 'HIGH': C.red, 'CRITICAL': C.dark };
+  new Chart(document.getElementById('riskChart'), {
+    type: 'doughnut',
+    data: {
+      labels: D.riskLabels,
+      datasets: [{
+        data: D.riskValues,
+        backgroundColor: D.riskLabels.map(l => riskColors[l] || C.muted),
+        borderColor: '#ffffff',
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, cutout: '62%',
+      plugins: { legend: { position: 'bottom', labels: { padding: 14, usePointStyle: true } } }
+    }
+  });
+
+  // 2) Lifecycle states — horizontal bar (Flagged highlighted red, Archived dark)
+  const lifeColors = D.lifeLabels.map(l =>
+    l === 'Flagged' ? C.red : (l === 'Archived' ? C.dark : C.teal));
+  new Chart(document.getElementById('lifecycleChart'), {
+    type: 'bar',
+    data: {
+      labels: D.lifeLabels,
+      datasets: [{ label: 'Evidence items', data: D.lifeValues,
+        backgroundColor: lifeColors, borderRadius: 5, maxBarThickness: 26 }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: C.grid } },
+        y: { grid: { display: false } }
+      }
+    }
+  });
+
+  // 3) Security activity over time — line (Successful vs Security Alerts)
+  new Chart(document.getElementById('activityChart'), {
+    type: 'line',
+    data: {
+      labels: D.actLabels,
+      datasets: [
+        { label: 'Successful', data: D.actSuccess, borderColor: C.green,
+          backgroundColor: 'rgba(45,138,106,0.12)', fill: true, tension: 0.35,
+          pointRadius: 0, borderWidth: 2 },
+        { label: 'Security Alerts', data: D.actAlerts, borderColor: C.red,
+          backgroundColor: 'rgba(200,80,80,0.10)', fill: true, tension: 0.35,
+          pointRadius: 0, borderWidth: 2 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 14 } } },
+      scales: {
+        x: { grid: { display: false }, ticks: { maxTicksLimit: 10, autoSkip: true } },
+        y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: C.grid } }
+      }
+    }
+  });
+
+  // 4) Audit events by type — vertical bar (Failed Attempt highlighted red)
+  const auditColors = D.auditLabels.map(l => l === 'Failed Attempt' ? C.red : C.blue);
+  new Chart(document.getElementById('auditChart'), {
+    type: 'bar',
+    data: {
+      labels: D.auditLabels,
+      datasets: [{ label: 'Events', data: D.auditValues,
+        backgroundColor: auditColors, borderRadius: 5, maxBarThickness: 34 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { autoSkip: false, maxRotation: 45, minRotation: 30 } },
+        y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: C.grid } }
+      }
+    }
+  });
+})();
+</script>
+{% endblock %}

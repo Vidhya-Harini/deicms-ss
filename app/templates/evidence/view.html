@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% block title %}{{ evidence.evidence_number }} — DEICMS{% endblock %}
+{% block content %}
+<div class="topbar">
+  <span class="page-title">
+    <i class="bi bi-file-earmark-lock2 me-2"></i>{{ evidence.evidence_number }}: {{ evidence.title }}
+  </span>
+  <div class="d-flex gap-2 flex-wrap">
+    {% if current_user.can_manage() %}
+    <a href="{{ url_for('evidence.edit_evidence', case_id=case.id, evidence_id=evidence.id) }}"
+       class="btn btn-outline-primary btn-sm"><i class="bi bi-pencil me-1"></i>Edit</a>
+    <a href="{{ url_for('custody.transfer_evidence', evidence_id=evidence.id) }}"
+       class="btn btn-primary btn-sm">Transfer</a>
+    <a href="{{ url_for('custody.change_state', evidence_id=evidence.id) }}"
+       class="btn btn-outline-secondary btn-sm">Change State</a>
+    {% endif %}
+    <a href="{{ url_for('custody.verify_integrity', evidence_id=evidence.id) }}"
+       class="btn btn-outline-success btn-sm"><i class="bi bi-shield-check me-1"></i>Verify Integrity</a>
+    <a href="{{ url_for('custody.reconstruct_chain', evidence_id=evidence.id) }}"
+       class="btn btn-outline-info btn-sm"><i class="bi bi-diagram-3 me-1"></i>Reconstruct Chain</a>
+    <a href="{{ url_for('audit.evidence_audit', evidence_id=evidence.id) }}"
+       class="btn btn-outline-dark btn-sm"><i class="bi bi-journal-text me-1"></i>Audit Trail</a>
+    <a href="{{ url_for('risk.evidence_risk', evidence_id=evidence.id) }}"
+       class="btn btn-warning">Risk Score</a>
+  </div>
+</div>
+
+<div class="row g-3">
+  <!-- Evidence Details -->
+  <div class="col-md-6">
+    <div class="card h-100">
+      <div class="card-header py-3">
+        <i class="bi bi-info-circle me-2"></i>Evidence Details
+      </div>
+      <div class="card-body">
+        {% set rows = [
+          ('Case', case.case_number),
+          ('Category', evidence.category),
+          ('File Name', evidence.file_name),
+          ('File Size', (evidence.file_size // 1024)|string + ' KB' if evidence.file_size else '—'),
+          ('MIME Type', evidence.file_mime_type or '—'),
+          ('Uploaded By', evidence.uploader.full_name),
+          ('Current Holder', evidence.current_holder.full_name if evidence.current_holder else '—'),
+        ] %}
+        {% for label, value in rows %}
+        <div class="row mb-2">
+          <div class="col-5 text-muted small fw-semibold">{{ label }}</div>
+          <div class="col-7 small">{{ value }}</div>
+        </div>
+        {% endfor %}
+        <div class="row mb-2">
+          <div class="col-5 text-muted small fw-semibold">State</div>
+          <div class="col-7">
+            {% set sc = {'Collected':'info','Submitted':'primary','Under Analysis':'warning',
+                         'Transferred':'secondary','Archived':'dark','Flagged':'danger'} %}
+            <span class="badge bg-{{ sc.get(evidence.lifecycle_state,'secondary') }}">
+              {{ evidence.lifecycle_state }}
+            </span>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-5 text-muted small fw-semibold">Risk Level</div>
+          <div class="col-7">
+            {% if evidence.risk_level == 'High' %}<span class="badge bg-danger">High</span>
+            {% elif evidence.risk_level == 'Medium' %}<span class="badge bg-warning text-dark">Medium</span>
+            {% else %}<span class="badge bg-success">Low</span>{% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Integrity Hashes -->
+  <div class="col-md-6">
+    <div class="card h-100">
+      <div class="card-header py-3">
+        <i class="bi bi-shield-check me-2"></i>Integrity Hashes
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          <div class="text-muted small fw-semibold mb-1">Original Hash (SHA-256)</div>
+          <div class="hash-text bg-light rounded p-2">{{ evidence.original_hash }}</div>
+        </div>
+        <div class="mb-3">
+          <div class="text-muted small fw-semibold mb-1">Current Hash (SHA-256)</div>
+          <div class="hash-text bg-light rounded p-2">{{ evidence.current_hash }}</div>
+        </div>
+        {% if evidence.original_hash == evidence.current_hash %}
+        <div class="alert alert-success py-2 small mb-0">
+          <i class="bi bi-check-circle me-1"></i>Hashes match — file integrity confirmed.
+        </div>
+        {% else %}
+        <div class="alert alert-danger py-2 small mb-0">
+          <i class="bi bi-x-circle me-1"></i>Hash mismatch detected! Evidence may have been tampered with.
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Custody Log -->
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header py-3">
+        <i class="bi bi-diagram-3 me-2"></i>Custody Log
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>#</th><th>Event</th><th>From</th><th>To</th>
+                <th>Location</th><th>Reason</th><th>Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for log in custody_logs %}
+              <tr>
+                <td class="text-muted small">{{ loop.index }}</td>
+                <td><span class="badge bg-secondary">{{ log.event_type }}</span></td>
+                <td class="small">{{ log.from_investigator.full_name if log.from_investigator else '—' }}</td>
+                <td class="small">{{ log.to_investigator.full_name if log.to_investigator else '—' }}</td>
+                <td class="small text-muted">{{ log.location or '—' }}</td>
+                <td class="small">{{ log.reason or '—' }}</td>
+                <td class="small text-muted">{{ log.timestamp.strftime('%d %b %Y %H:%M') }}</td>
+              </tr>
+              {% else %}
+              <tr><td colspan="7" class="text-center text-muted py-3">No custody events recorded.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

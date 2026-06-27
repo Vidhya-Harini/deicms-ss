@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- CSRF token for JavaScript fetch/AJAX requests -->
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
+  <title>{% block title %}DEICMS{% endblock %}</title>
+
+  <!-- Google Fonts — DM Sans (headings) + Source Sans 3 (body) -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet" />
+
+  <style>
+    /* ── Base typography ─────────────────────────────────────────────── */
+    body {
+      background-color: #f0f4f4;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.925rem;
+      color: #2D3B3A;
+    }
+
+    a {
+      color: #2D8A6A;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    a:hover {
+      color: #1b5e4a;
+      text-decoration: underline;
+    }
+
+    .table a {
+      color: #2D3B3A;
+      text-decoration: none;
+    }
+
+    .table a:hover {
+      color: #2D8A6A;
+      text-decoration: underline;
+    }
+
+    h1, h2, h3, h4, h5, h6,
+    .h1, .h2, .h3, .h4, .h5, .h6 {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      color: #1E2E2D;
+    }
+
+    /* ── Sidebar ─────────────────────────────────────────────────────── */
+    #sidebar {
+      width: 240px;
+      min-height: 100vh;
+      background: #2D3B3A;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding-top: 0;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #sidebar .brand {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #fff;
+      padding: 1.1rem 1.25rem 1rem;
+      border-bottom: 1px solid #3D4E4D;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #sidebar .brand .brand-accent {
+      color: #3DBFA0;
+    }
+
+    #sidebar .brand-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #3DBFA0;
+      flex-shrink: 0;
+    }
+
+    #sidebar .section-label {
+      color: #6B8A88;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 1rem 1.25rem 0.3rem;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    #sidebar .nav-link {
+      color: #A8BFBD;
+      padding: 0.5rem 1.25rem;
+      font-size: 0.875rem;
+      font-family: 'Source Sans 3', sans-serif;
+      border-radius: 0;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      border-left: 2px solid transparent;
+    }
+
+    #sidebar .nav-link:hover {
+      color: #fff;
+      background: rgba(61, 191, 160, 0.08);
+      border-left-color: rgba(61, 191, 160, 0.4);
+    }
+
+    #sidebar .nav-link.active {
+      color: #fff;
+      background: rgba(61, 191, 160, 0.12);
+      border-left-color: #3DBFA0;
+    }
+
+    #sidebar .nav-link i {
+      font-size: 1rem;
+      width: 18px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    #sidebar .nav-link.text-danger {
+      color: #E07070 !important;
+      border-left-color: transparent;
+    }
+
+    #sidebar .nav-link.text-danger:hover {
+      color: #F08080 !important;
+      background: rgba(224, 112, 112, 0.08);
+      border-left-color: rgba(224, 112, 112, 0.4);
+    }
+
+    #sidebar .user-block {
+      padding: 0.6rem 1.25rem;
+      font-size: 0.8rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      border-left: 2px solid transparent;
+      cursor: default;
+    }
+
+    #sidebar .user-block .user-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(61, 191, 160, 0.2);
+      color: #3DBFA0;
+      font-size: 0.7rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    #sidebar .user-block .user-name {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    #sidebar .user-block .user-role {
+      font-size: 0.71rem;
+      color: #6B8A88;
+    }
+
+    /* ── Main content ─────────────────────────────────────────────────── */
+    #main {
+      margin-left: 240px;
+      padding: 1.5rem 2rem;
+      min-height: 100vh;
+    }
+
+    /* ── Topbar ──────────────────────────────────────────────────────── */
+    .topbar {
+      background: #fff;
+      border-radius: 8px;
+      padding: 0.75rem 1.25rem;
+      margin-bottom: 1.5rem;
+      border: 0.5px solid #D4D8D8;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    .topbar .page-title {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #1E2E2D;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .topbar .page-title i {
+      font-size: 1.15rem;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      margin-top: -1px;
+      color: #1E2E2D;
+    }
+
+    /* ── Cards ───────────────────────────────────────────────────────── */
+    .card {
+      border: 0.5px solid #D4D8D8;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    .card-header {
+      background: #fff;
+      border-bottom: 0.5px solid #D4D8D8;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      border-radius: 8px 8px 0 0 !important;
+      font-size: 0.9rem;
+      color: #1E2E2D;
+      padding: 0.85rem 1.25rem;
+    }
+
+    /* ── Stat cards ──────────────────────────────────────────────────── */
+    .stat-card {
+      background: #fff;
+      border: 0.5px solid #D4D8D8;
+      border-radius: 8px;
+      padding: 1.1rem 1.25rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #3DBFA0;
+      border-radius: 0 0 8px 8px;
+    }
+
+    .stat-card.accent-blue::before  { background: #4A90D9; }
+    .stat-card.accent-teal::before  { background: #3DBFA0; }
+    .stat-card.accent-amber::before { background: #D48B2A; }
+    .stat-card.accent-purple::before{ background: #7B68BE; }
+
+    .stat-card .stat-number {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: #1E2E2D;
+      line-height: 1;
+    }
+
+    .stat-card .stat-label {
+      font-size: 0.78rem;
+      color: #7A756E;
+      margin-top: 4px;
+      font-family: 'Source Sans 3', sans-serif;
+    }
+
+    .stat-card .stat-icon {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.4rem;
+      color: #D4D0CA;
+    }
+
+    /* ── Badges ──────────────────────────────────────────────────────── */
+    .badge {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      padding: 0.35em 0.65em;
+      border-radius: 4px;
+    }
+
+    /* Risk level badges — override Bootstrap defaults with soft tone colors */
+    .badge.bg-primary { background-color: #e0f2fe !important; color: #0369a1 !important; border: 1px solid #bae6fd; }
+    .badge.bg-dark    { background-color: #f1f5f9 !important; color: #334155 !important; border: 1px solid #cbd5e1; }
+    .badge.bg-danger  { background-color: #fef2f2 !important; color: #991b1b !important; border: 1px solid #fca5a5; }
+    .badge.bg-warning { background-color: #fffbeb !important; color: #92400e !important; border: 1px solid #fde68a; }
+    .badge.bg-success { background-color: #f0fdf4 !important; color: #166534 !important; border: 1px solid #bbf7d0; }
+    .badge.bg-secondary { background-color: #f8fafc !important; color: #64748b !important; border: 1px solid #e2e8f0; }
+    .badge.bg-info    { background-color: #ecfeff !important; color: #155e75 !important; border: 1px solid #a5f3fc; }
+
+    .risk-badge {
+      display: inline-block;
+      width: 90px;
+      text-align: center;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 6px;
+      text-transform: uppercase;
+      font-family: 'DM Sans', sans-serif;
+      letter-spacing: 0.3px;
+      line-height: 1.2;
+    }
+    .risk-badge.level-critical {
+      border: 1px solid #2D3B3A;
+      color: #2D3B3A;
+      background: transparent;
+    }
+    .risk-badge.level-high {
+      border: 1px solid #C85050;
+      color: #C85050;
+      background: transparent;
+    }
+    .risk-badge.level-medium {
+      border: 1px solid #D4882A;
+      color: #D4882A;
+      background: transparent;
+    }
+    .risk-badge.level-low {
+      border: 1px solid #2D8A6A;
+      color: #2D8A6A;
+      background: transparent;
+    }
+
+    /* ── Tables ──────────────────────────────────────────────────────── */
+    .table {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.875rem;
+      color: #2D3B3A;
+    }
+
+    .table th {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.71rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #7A756E;
+      font-weight: 600;
+      border-bottom-width: 1px;
+      border-color: #D4D8D8;
+    }
+
+    .table td {
+      vertical-align: middle;
+      border-color: #EBE8E3;
+    }
+
+    .table-hover tbody tr:hover {
+      background-color: #FAF8F5;
+    }
+
+    .table-dark th {
+      background: #2D3B3A !important;
+      color: #A8BFBD !important;
+      font-size: 0.71rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      border-color: #3D4E4D !important;
+    }
+
+    .table-light th {
+      background: #f0f4f4 !important;
+      color: #7A756E !important;
+    }
+
+    /* ── Buttons ─────────────────────────────────────────────────────── */
+    .btn {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.85rem;
+      border-radius: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-primary {
+      background: #2D8A6A;
+      border-color: #2D8A6A;
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: #246E55;
+      border-color: #246E55;
+    }
+
+    .btn-outline-primary {
+      border-color: #3DBFA0;
+      color: #2D8A6A;
+    }
+    .btn-outline-primary:hover {
+      background: #3DBFA0;
+      border-color: #3DBFA0;
+      color: #fff;
+    }
+
+    .btn-warning {
+      background: #D4882A;
+      border-color: #D4882A;
+      color: #fff;
+    }
+    .btn-warning:hover {
+      background: #B87220;
+      border-color: #B87220;
+      color: #fff;
+    }
+
+    .btn-outline-warning {
+      border-color: #D4882A;
+      color: #D4882A;
+    }
+    .btn-outline-warning:hover {
+      background: #D4882A;
+      color: #fff;
+    }
+
+    .btn-outline-secondary {
+      border-color: #C8C5BF;
+      color: #5A5650;
+    }
+    .btn-outline-secondary:hover {
+      background: #EBE8E3;
+      border-color: #C8C5BF;
+      color: #2D3B3A;
+    }
+
+    .btn-outline-danger {
+      border-color: #C85050;
+      color: #C85050;
+    }
+    .btn-outline-danger:hover {
+      background: #C85050;
+      color: #fff;
+    }
+
+    .btn-info {
+      background: #3DBFA0;
+      border-color: #3DBFA0;
+      color: #fff;
+    }
+    .btn-info:hover {
+      background: #32A88C;
+      border-color: #32A88C;
+      color: #fff;
+    }
+
+    .btn-success {
+      background: #2D8A6A;
+      border-color: #2D8A6A;
+      color: #fff;
+    }
+    .btn-success:hover {
+      background: #246E55;
+      border-color: #246E55;
+    }
+
+    .btn-secondary {
+      background: #7A756E;
+      border-color: #7A756E;
+    }
+
+    .btn-dark {
+      background: #2D3B3A;
+      border-color: #2D3B3A;
+    }
+    .btn-dark:hover {
+      background: #1E2E2D;
+      border-color: #1E2E2D;
+    }
+
+    /* ── Progress bars ───────────────────────────────────────────────── */
+    .progress {
+      background: #e2e8f0;
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .progress-bar.bg-success { background-color: #2D8A6A !important; }
+    .progress-bar.bg-warning { background-color: #D4882A !important; }
+    .progress-bar.bg-danger  { background-color: #C85050 !important; }
+    .progress-bar.bg-dark    { background-color: #2D3B3A !important; }
+    .progress-bar.bg-info    { background-color: #3DBFA0 !important; }
+
+    /* ── Alerts ──────────────────────────────────────────────────────── */
+    .alert {
+      border-radius: 8px;
+      border-width: 0.5px;
+      font-family: 'Source Sans 3', sans-serif;
+    }
+
+    .alert-success {
+      background: #E8F5F0;
+      border-color: #A8D8C8;
+      color: #1E5E48;
+    }
+
+    .alert-danger {
+      background: #FEF0F0;
+      border-color: #F0B8B8;
+      color: #8B2020;
+    }
+
+    .alert-warning {
+      background: #FDF5E8;
+      border-color: #F0D090;
+      color: #7A4A10;
+    }
+
+    .alert-info {
+      background: #E8F7F3;
+      border-color: #A8DDD0;
+      color: #1B5E4A;
+    }
+
+    /* ── Forms ───────────────────────────────────────────────────────── */
+    .form-control, .form-select {
+      border-color: #D4D0CA;
+      border-radius: 6px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.9rem;
+      color: #2D3B3A;
+      background: #fff;
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: #3DBFA0;
+      box-shadow: 0 0 0 3px rgba(61, 191, 160, 0.12);
+    }
+
+    .form-label {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: #3D4E4D;
+      margin-bottom: 4px;
+    }
+
+    /* ── Hash / mono text ────────────────────────────────────────────── */
+    .hash-text {
+      font-family: 'Courier New', monospace;
+      font-size: 0.76rem;
+      color: #5A6E6D;
+      word-break: break-all;
+      background: #f0f4f4;
+      padding: 2px 5px;
+      border-radius: 3px;
+    }
+
+    /* ── List groups ─────────────────────────────────────────────────── */
+    .list-group-item {
+      border-color: #EBE8E3;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.875rem;
+    }
+
+    /* ── Pagination ──────────────────────────────────────────────────── */
+    .page-link {
+      color: #2D8A6A;
+      border-color: #e2e8f0;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+    }
+
+    .page-item.active .page-link {
+      background: #3DBFA0;
+      border-color: #3DBFA0;
+    }
+
+    /* ── Scrollbar (subtle) ──────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #f0f4f4; }
+    ::-webkit-scrollbar-thumb { background: #C8C5BF; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #A8A49E; }
+  </style>
+</head>
+
+<body>
+  <!-- ── Sidebar ───────────────────────────────────────────────────── -->
+  {% if current_user.is_authenticated %}
+  <nav id="sidebar">
+    <div class="brand">
+      <div class="brand-dot"></div>
+      <span>DEI<span class="brand-accent">CMS</span></span>
+    </div>
+
+    <div class="section-label">Main</div>
+    <a href="{{ url_for('dashboard.index') }}"
+       class="nav-link {% if request.endpoint == 'dashboard.index' %}active{% endif %}">
+      <i class="bi bi-speedometer2"></i> Dashboard
+    </a>
+    <a href="{{ url_for('cases.list_cases') }}"
+       class="nav-link {% if 'cases' in (request.endpoint or '') %}active{% endif %}">
+      <i class="bi bi-folder2-open"></i> Cases
+    </a>
+
+    <div class="section-label">Evidence</div>
+    {% if current_user.is_admin() %}
+    <a href="{{ url_for('audit.audit_trail') }}"
+       class="nav-link {% if 'audit' in (request.endpoint or '') %}active{% endif %}">
+      <i class="bi bi-journal-text"></i> Audit Trail
+    </a>
+    {% endif %}
+    <a href="{{ url_for('risk.risk_dashboard') }}"
+       class="nav-link {% if 'risk' in (request.endpoint or '') %}active{% endif %}">
+      <i class="bi bi-shield-exclamation"></i> Risk Dashboard
+    </a>
+    <a href="{{ url_for('risk.anomaly_dashboard') }}"
+       class="nav-link {% if request.endpoint == 'risk.anomaly_dashboard' %}active{% endif %}">
+      <i class="bi bi-robot"></i> Anomaly Detection
+    </a>
+
+    <div class="section-label">AI Tools</div>
+    <a href="{{ url_for('assistant.chat_page') }}"
+       class="nav-link {% if 'assistant' in (request.endpoint or '') %}active{% endif %}">
+      <i class="bi bi-chat-dots"></i> AI Assistant
+    </a>
+
+    {% if current_user.is_admin() %}
+    <div class="section-label">Administration</div>
+    <a href="{{ url_for('admin.list_users') }}"
+       class="nav-link {% if 'admin' in (request.endpoint or '') %}active{% endif %}">
+      <i class="bi bi-people-fill"></i> Admin Panel
+    </a>
+    {% endif %}
+
+    <div class="section-label">Account</div>
+    <div class="user-block">
+      <div class="user-avatar">
+        {{ current_user.full_name[:2].upper() }}
+      </div>
+      <div>
+        <div class="user-name">{{ current_user.full_name }}</div>
+        <div class="user-role">{{ current_user.role }}</div>
+      </div>
+    </div>
+    <a href="{{ url_for('auth.mfa_setup') }}"
+       class="nav-link {% if 'mfa' in (request.endpoint or '') %}active{% endif %}">
+      <i class="bi bi-shield-lock"></i> Security (2FA)
+    </a>
+    <a href="{{ url_for('auth.logout') }}" class="nav-link text-danger">
+      <i class="bi bi-door-open-fill"></i> Log Out
+    </a>
+  </nav>
+  {% endif %}
+
+  <!-- ── Main content ──────────────────────────────────────────────── -->
+  <div id="main" {% if not current_user.is_authenticated %}style="margin-left:0; background:#F6F4F0;"{% endif %}>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show rounded mb-3" role="alert">
+            {% if category == 'success' %}<i class="bi bi-check-circle me-2"></i>
+            {% elif category == 'danger' %}<i class="bi bi-exclamation-triangle me-2"></i>
+            {% elif category == 'warning' %}<i class="bi bi-exclamation-circle me-2"></i>
+            {% else %}<i class="bi bi-info-circle me-2"></i>{% endif %}
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </div>
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

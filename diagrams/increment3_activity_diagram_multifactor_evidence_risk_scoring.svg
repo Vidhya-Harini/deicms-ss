@@ -1,0 +1,171 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 1200 1120" role="img" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+<title>Activity Diagram — Multi-Factor Evidence Risk Scoring — DEICMS</title>
+<desc>Activity flow of the multi-factor evidence risk scoring algorithm: extract/normalise factors, weighted scoring, interaction detection, final classification, and recommendations.</desc>
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M1 1L9 5L1 9" fill="none" stroke="#6B6B66" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<!-- Background -->
+<rect x="0" y="0" width="1200" height="1120" fill="#FFFFFF"/>
+
+<!-- Title -->
+<text x="40" y="28" font-size="18" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">Activity Diagram — Multi-Factor Evidence Risk Scoring</text>
+<text x="40" y="50" font-size="11" fill="#6B6B66" text-anchor="start" font-weight="400" dominant-baseline="central">Six factors extracted, normalised, weighted, interaction-adjusted, classified, and annotated with recommendations.</text>
+
+<!-- Start -->
+<circle cx="600" cy="86" r="13" fill="#3C3489"/>
+<line x1="600" y1="99" x2="600" y2="118" stroke="#6B6B66" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<!-- Input -->
+<rect x="472" y="120" width="256" height="44" rx="8" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1.3"/>
+<text x="600" y="142" font-size="12" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">Receive EvidenceItem</text>
+<line x1="600" y1="164" x2="600" y2="180" stroke="#6B6B66" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<!-- ===== STAGE 1+2: EXTRACT & NORMALISE ===== -->
+<rect x="40" y="182" width="1120" height="226" rx="8" fill="#FFFFFF" stroke="#AFA9EC" stroke-width="1.3" stroke-dasharray="5 3"/>
+<text x="52" y="198" font-size="11" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">Stage 1+2 · Extract &amp; Normalise Factors (parallel fork)</text>
+
+<!-- Fork bar -->
+<rect x="60" y="212" width="1080" height="6" rx="2" fill="#3C3489"/>
+
+<!-- F1: Integrity -->
+<rect x="72" y="232" width="152" height="38" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1"/>
+<text x="148" y="251" font-size="10.5" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">Extract integrity_status</text>
+<rect x="72" y="280" width="152" height="38" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1"/>
+<text x="148" y="299" font-size="10.5" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">Categorical map → score</text>
+
+<!-- F2: File type -->
+<rect x="246" y="232" width="152" height="38" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1"/>
+<text x="322" y="251" font-size="10.5" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">Extract file extension</text>
+<rect x="246" y="280" width="152" height="38" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1"/>
+<text x="322" y="299" font-size="10.5" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">FILE_TYPE_RISK → score</text>
+
+<!-- F3: Custody rate -->
+<rect x="422" y="232" width="152" height="38" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1"/>
+<text x="498" y="251" font-size="10.5" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">Count custody transfers</text>
+<rect x="422" y="280" width="152" height="38" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1"/>
+<text x="498" y="299" font-size="10.5" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">Log normalise (scale=10)</text>
+
+<!-- F4: Role mismatch -->
+<rect x="598" y="232" width="152" height="38" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1"/>
+<text x="674" y="251" font-size="10.5" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">Count ROLE_MISMATCH</text>
+<rect x="598" y="280" width="152" height="38" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1"/>
+<text x="674" y="299" font-size="10.5" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">Log normalise (scale=5)</text>
+
+<!-- F5: Inactivity -->
+<rect x="774" y="232" width="160" height="38" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1"/>
+<text x="854" y="251" font-size="10.5" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">Days since last activity</text>
+<rect x="774" y="280" width="160" height="56" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1"/>
+<text x="854" y="299" font-size="10.5" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">Sigmoid normalise</text>
+<text x="854" y="316" font-size="9" fill="#6B6B66" text-anchor="middle" dominant-baseline="central">(midpoint=30, steepness=0.08)</text>
+
+<!-- F6: Duplicates -->
+<rect x="960" y="232" width="164" height="38" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1"/>
+<text x="1042" y="251" font-size="10.5" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">Count DUPLICATE_DETECTED</text>
+<rect x="960" y="280" width="164" height="38" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1"/>
+<text x="1042" y="299" font-size="10.5" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">Log normalise (scale=3)</text>
+
+<!-- Join bar -->
+<rect x="60" y="354" width="1080" height="6" rx="2" fill="#3C3489"/>
+<line x1="600" y1="360" x2="600" y2="378" stroke="#6B6B66" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<!-- ===== STAGE 3: WEIGHTED BASE SCORE ===== -->
+<rect x="300" y="380" width="600" height="100" rx="8" fill="#FFFFFF" stroke="#AFA9EC" stroke-width="1.3" stroke-dasharray="5 3"/>
+<text x="312" y="396" font-size="11" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">Stage 3 · Weighted Base Score</text>
+<rect x="326" y="408" width="240" height="38" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1"/>
+<text x="446" y="427" font-size="10.5" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">Attach weight to each factor</text>
+<rect x="590" y="408" width="294" height="38" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1"/>
+<text x="737" y="427" font-size="10.5" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">contribution = normalised_score × weight</text>
+<line x1="600" y1="480" x2="600" y2="498" stroke="#6B6B66" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="370" y="500" width="460" height="38" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1.3"/>
+<text x="600" y="519" font-size="10.5" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">Sum all contributions → base_score</text>
+<line x1="600" y1="538" x2="600" y2="556" stroke="#6B6B66" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<!-- ===== STAGE 4: INTERACTION DETECTION ===== -->
+<rect x="280" y="558" width="640" height="290" rx="8" fill="#FFFFFF" stroke="#AFA9EC" stroke-width="1.3" stroke-dasharray="5 3"/>
+<text x="292" y="574" font-size="11" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">Stage 4 · Interaction Detection (iterate 4 rules)</text>
+<rect x="350" y="588" width="500" height="38" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1"/>
+<text x="600" y="607" font-size="10.5" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">Check factor_a.score ≥ threshold_a AND factor_b.score ≥ threshold_b</text>
+<line x1="600" y1="626" x2="600" y2="646" stroke="#6B6B66" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<!-- Decision: thresholds met? -->
+<polygon points="600,648 688,678 600,708 512,678" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1.3"/>
+<text x="600" y="678" font-size="10.5" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">Both met?</text>
+
+<!-- Yes -->
+<line x1="512" y1="678" x2="378" y2="678" stroke="#6B6B66" stroke-width="1.3" marker-end="url(#arrow)"/>
+<text x="445" y="671" font-size="10" fill="#6B6B66" text-anchor="middle" font-weight="600">Yes</text>
+<rect x="290" y="658" width="186" height="44" rx="6" fill="#E8F6F0" stroke="#1D9E75" stroke-width="1.3"/>
+<text x="383" y="674" font-size="10.5" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">bonus = base_score × (mult−1)</text>
+<text x="383" y="690" font-size="10.5" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">× avg(score_a, score_b)</text>
+<line x1="383" y1="702" x2="383" y2="730" stroke="#6B6B66" stroke-width="1.3"/>
+<rect x="290" y="730" width="186" height="38" rx="6" fill="#E8F6F0" stroke="#1D9E75" stroke-width="1.3"/>
+<text x="383" y="749" font-size="10.5" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">Record InteractionEffect</text>
+<line x1="383" y1="768" x2="600" y2="768" stroke="#6B6B66" stroke-width="1.3" marker-end="url(#arrow)"/>
+
+<!-- No -->
+<line x1="688" y1="678" x2="790" y2="678" stroke="#6B6B66" stroke-width="1.3" marker-end="url(#arrow)"/>
+<text x="739" y="671" font-size="10" fill="#6B6B66" text-anchor="middle" font-weight="600">No</text>
+<rect x="790" y="658" width="110" height="44" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1"/>
+<text x="845" y="680" font-size="10.5" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">Skip rule</text>
+<line x1="845" y1="702" x2="845" y2="768" stroke="#6B6B66" stroke-width="1.3"/>
+<line x1="845" y1="768" x2="700" y2="768" stroke="#6B6B66" stroke-width="1.3" marker-end="url(#arrow)"/>
+
+<!-- More rules? -->
+<polygon points="620,770 700,795 620,820 540,795" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1.3"/>
+<text x="620" y="795" font-size="10" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">More rules?</text>
+<line x1="700" y1="795" x2="770" y2="795" stroke="#6B6B66" stroke-width="1.3"/>
+<line x1="770" y1="795" x2="770" y2="607" stroke="#6B6B66" stroke-width="1.3"/>
+<line x1="770" y1="607" x2="850" y2="607" stroke="#6B6B66" stroke-width="1.3" marker-end="url(#arrow)"/>
+<text x="735" y="700" font-size="10" fill="#6B6B66" text-anchor="middle" font-weight="600">Yes</text>
+
+<!-- Continue -->
+<line x1="620" y1="820" x2="620" y2="836" stroke="#6B6B66" stroke-width="1.3" marker-end="url(#arrow)"/>
+<text x="634" y="828" font-size="10" fill="#6B6B66" text-anchor="start" font-weight="600">No</text>
+<rect x="394" y="838" width="452" height="38" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1"/>
+<text x="620" y="857" font-size="10.5" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">total_bonus = sum of all bonuses</text>
+<line x1="620" y1="876" x2="620" y2="892" stroke="#6B6B66" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<!-- ===== STAGE 5: FINAL SCORE ===== -->
+<rect x="200" y="894" width="840" height="130" rx="8" fill="#FFFFFF" stroke="#AFA9EC" stroke-width="1.3" stroke-dasharray="5 3"/>
+<text x="212" y="910" font-size="11" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">Stage 5 · Final Score &amp; Classification</text>
+<rect x="368" y="922" width="504" height="38" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1"/>
+<text x="620" y="941" font-size="10.5" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">final_score = min(1.0, base_score + total_bonus)</text>
+
+<!-- Classification boxes -->
+<rect x="214" y="970" width="196" height="38" rx="6" fill="#E8F6F0" stroke="#1D9E75" stroke-width="1.3"/>
+<text x="312" y="982" font-size="10" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">LOW</text>
+<text x="312" y="996" font-size="9" fill="#6B6B66" text-anchor="middle" dominant-baseline="central">score &lt; 0.25</text>
+
+<rect x="420" y="970" width="196" height="38" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1.3"/>
+<text x="518" y="982" font-size="10" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">MEDIUM</text>
+<text x="518" y="996" font-size="9" fill="#6B6B66" text-anchor="middle" dominant-baseline="central">score &lt; 0.50</text>
+
+<rect x="626" y="970" width="196" height="38" rx="6" fill="#FFF8E1" stroke="#F39C12" stroke-width="1.3"/>
+<text x="724" y="982" font-size="10" fill="#E67E22" text-anchor="middle" font-weight="700" dominant-baseline="central">HIGH</text>
+<text x="724" y="996" font-size="9" fill="#6B6B66" text-anchor="middle" dominant-baseline="central">score &lt; 0.75</text>
+
+<rect x="832" y="970" width="196" height="38" rx="6" fill="#FDECEA" stroke="#C0392B" stroke-width="1.3"/>
+<text x="930" y="982" font-size="10" fill="#C0392B" text-anchor="middle" font-weight="700" dominant-baseline="central">CRITICAL</text>
+<text x="930" y="996" font-size="9" fill="#6B6B66" text-anchor="middle" dominant-baseline="central">score ≥ 0.75</text>
+
+<!-- All merge -->
+<line x1="620" y1="1008" x2="620" y2="1026" stroke="#6B6B66" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<!-- Stage 6: Recommendations -->
+<rect x="300" y="1028" width="640" height="60" rx="8" fill="#E8F6F0" stroke="#1D9E75" stroke-width="1.3"/>
+<text x="620" y="1044" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">Stage 6 · Recommendations</text>
+<text x="620" y="1060" font-size="10" fill="#1D9E75" text-anchor="middle" font-weight="400" dominant-baseline="central">Flag factors above threshold · append interaction escalation warning</text>
+<line x1="620" y1="1088" x2="620" y2="1098" stroke="#6B6B66" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<!-- Return RiskReport -->
+<rect x="470" y="1074" width="300" height="38" rx="8" fill="#E8F6F0" stroke="#1D9E75" stroke-width="1.3"/>
+<text x="620" y="1093" font-size="12" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">Return RiskReport</text>
+<line x1="620" y1="1112" x2="620" y2="1104" stroke="#6B6B66" stroke-width="1" marker-end="url(#arrow)"/>
+
+<!-- End -->
+<circle cx="620" cy="1104" r="11" fill="none" stroke="#3C3489" stroke-width="2"/>
+<circle cx="620" cy="1104" r="6" fill="#3C3489"/>
+</svg>

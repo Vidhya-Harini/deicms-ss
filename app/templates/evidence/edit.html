@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Edit Evidence — DEICMS{% endblock %}
+{% block content %}
+<div class="topbar">
+  <span class="page-title"><i class="bi bi-pencil me-2"></i>Edit {{ evidence.evidence_number }}</span>
+  <a href="{{ url_for('evidence.view_evidence', case_id=case.id, evidence_id=evidence.id) }}"
+     class="btn btn-outline-secondary btn-sm">Back</a>
+</div>
+<div class="card" style="max-width:600px;">
+  <div class="card-body p-4">
+    <form method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+      <div class="mb-3">
+        <label class="form-label fw-semibold small">Title</label>
+        <input type="text" name="title" class="form-control" value="{{ evidence.title }}" required/>
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold small">Description</label>
+        <textarea name="description" class="form-control" rows="3">{{ evidence.description or '' }}</textarea>
+      </div>
+      <div class="mb-4">
+        <label class="form-label fw-semibold small">Category</label>
+        <select name="category" class="form-select">
+          {% for c in ['Image','Video','Audio','Document','Database','Log File','Other'] %}
+          <option value="{{ c }}" {% if evidence.category == c %}selected{% endif %}>{{ c }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary fw-semibold">
+          <i class="bi bi-check-lg me-1"></i>Save Changes
+        </button>
+        <a href="{{ url_for('evidence.view_evidence', case_id=case.id, evidence_id=evidence.id) }}"
+           class="btn btn-outline-secondary">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

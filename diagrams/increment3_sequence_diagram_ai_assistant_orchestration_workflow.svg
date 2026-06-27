@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 1400 1140" role="img" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+<title>Sequence Diagram — AI Investigation Assistant Orchestration Workflow — DEICMS</title>
+<desc>Message flow between Investigator, Flask Route, AIInvestigationAssistant, and the five pipeline stages: classify_intent, retrieve_context, build_prompt, call_claude (NVIDIA NIM API), and validate_response.</desc>
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M1 1L9 5L1 9" fill="none" stroke="#6B6B66" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<!-- Background -->
+<rect x="0" y="0" width="1400" height="1140" fill="#FFFFFF"/>
+
+<!-- Title -->
+<text x="40" y="28" font-size="18" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">Sequence Diagram — AI Assistant Orchestration Workflow</text>
+<text x="40" y="50" font-size="11" fill="#6B6B66" text-anchor="start" font-weight="400" dominant-baseline="central">Five-stage pipeline: intent classification → context retrieval → prompt assembly → LLM call → response validation</text>
+
+<!-- ====== LIFELINE HEADERS ====== -->
+<!-- x positions: 85, 230, 390, 560, 720, 870, 1020, 1185, 1320 -->
+
+<rect x="30"   y="70" width="110" height="52" rx="6" fill="#3C3489" stroke="#AFA9EC" stroke-width="1"/>
+<text x="85"   y="90"  font-size="11" fill="#CECBF6" text-anchor="middle" font-weight="700" dominant-baseline="central">Investigator</text>
+
+<rect x="172"  y="70" width="116" height="52" rx="6" fill="#0F6E56" stroke="#1D9E75" stroke-width="1"/>
+<text x="230"  y="90"  font-size="11" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">Flask Route</text>
+<text x="230"  y="106" font-size="9"  fill="#9FE1CB" text-anchor="middle" dominant-baseline="central">/assistant/chat</text>
+
+<rect x="334"  y="70" width="112" height="52" rx="6" fill="#0F6E56" stroke="#1D9E75" stroke-width="1"/>
+<text x="390"  y="90"  font-size="11" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">AIInvestigation</text>
+<text x="390"  y="106" font-size="9"  fill="#9FE1CB" text-anchor="middle" dominant-baseline="central">Assistant</text>
+
+<rect x="496"  y="70" width="128" height="52" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="560"  y="90"  font-size="11" fill="#3C3489" text-anchor="middle" font-weight="700" dominant-baseline="central">Stage 1:</text>
+<text x="560"  y="106" font-size="10" fill="#5B4FA8" text-anchor="middle" dominant-baseline="central">classify_intent()</text>
+
+<rect x="648"  y="70" width="144" height="52" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="720"  y="90"  font-size="11" fill="#3C3489" text-anchor="middle" font-weight="700" dominant-baseline="central">Stage 2:</text>
+<text x="720"  y="106" font-size="10" fill="#5B4FA8" text-anchor="middle" dominant-baseline="central">retrieve_context()</text>
+
+<rect x="800"  y="70" width="140" height="52" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="870"  y="90"  font-size="11" fill="#3C3489" text-anchor="middle" font-weight="700" dominant-baseline="central">Stage 3:</text>
+<text x="870"  y="106" font-size="10" fill="#5B4FA8" text-anchor="middle" dominant-baseline="central">build_prompt()</text>
+
+<rect x="948"  y="70" width="144" height="52" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="1020" y="90"  font-size="11" fill="#3C3489" text-anchor="middle" font-weight="700" dominant-baseline="central">Stage 4:</text>
+<text x="1020" y="106" font-size="10" fill="#5B4FA8" text-anchor="middle" dominant-baseline="central">call_llm()</text>
+
+<rect x="1106" y="70" width="158" height="52" rx="6" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="1185" y="90"  font-size="11" fill="#3C3489" text-anchor="middle" font-weight="700" dominant-baseline="central">Stage 5:</text>
+<text x="1185" y="106" font-size="10" fill="#5B4FA8" text-anchor="middle" dominant-baseline="central">validate_response()</text>
+
+<rect x="1274" y="70" width="92" height="52" rx="6" fill="#3C3489" stroke="#AFA9EC" stroke-width="1"/>
+<text x="1320" y="90"  font-size="11" fill="#CECBF6" text-anchor="middle" font-weight="700" dominant-baseline="central">SQLite DB</text>
+
+<!-- ====== LIFELINES ====== -->
+<line x1="85"   y1="122" x2="85"   y2="1060" stroke="#C9C5E6" stroke-width="0.7" stroke-dasharray="5 4"/>
+<line x1="230"  y1="122" x2="230"  y2="1060" stroke="#C9C5E6" stroke-width="0.7" stroke-dasharray="5 4"/>
+<line x1="390"  y1="122" x2="390"  y2="1060" stroke="#C9C5E6" stroke-width="0.7" stroke-dasharray="5 4"/>
+<line x1="560"  y1="122" x2="560"  y2="1060" stroke="#C9C5E6" stroke-width="0.7" stroke-dasharray="5 4"/>
+<line x1="720"  y1="122" x2="720"  y2="1060" stroke="#C9C5E6" stroke-width="0.7" stroke-dasharray="5 4"/>
+<line x1="870"  y1="122" x2="870"  y2="1060" stroke="#C9C5E6" stroke-width="0.7" stroke-dasharray="5 4"/>
+<line x1="1020" y1="122" x2="1020" y2="1060" stroke="#C9C5E6" stroke-width="0.7" stroke-dasharray="5 4"/>
+<line x1="1185" y1="122" x2="1185" y2="1060" stroke="#C9C5E6" stroke-width="0.7" stroke-dasharray="5 4"/>
+<line x1="1320" y1="122" x2="1320" y2="1060" stroke="#C9C5E6" stroke-width="0.7" stroke-dasharray="5 4"/>
+
+<!-- ====== ACTIVATION BOXES ====== -->
+<rect x="225" y="160" width="10" height="820" fill="#E8F6F0" stroke="#1D9E75" stroke-width="0.8"/>
+<rect x="385" y="190" width="10" height="660" fill="#E8F6F0" stroke="#1D9E75" stroke-width="0.8"/>
+<rect x="555" y="218" width="10" height="130" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="0.8"/>
+<rect x="715" y="378" width="10" height="120" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="0.8"/>
+<rect x="865" y="534" width="10" height="90" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="0.8"/>
+<rect x="1015" y="654" width="10" height="120" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="0.8"/>
+<rect x="1180" y="798" width="10" height="90" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="0.8"/>
+
+<!-- ====== MESSAGES ====== -->
+
+<!-- 1. POST /assistant/chat -->
+<line x1="85" y1="170" x2="224" y2="170" stroke="#6B6B66" stroke-width="1.3" marker-end="url(#arrow)"/>
+<text x="154" y="152" font-size="10" fill="#2D3B3A" text-anchor="middle" font-weight="600">POST /assistant/chat</text>
+<text x="154" y="165" font-size="10" fill="#6B6B66" text-anchor="middle">{message, history}</text>
+
+<!-- 2. answer(user_message, history) -->
+<line x1="235" y1="200" x2="384" y2="200" stroke="#6B6B66" stroke-width="1.3" marker-end="url(#arrow)"/>
+<text x="309" y="193" font-size="10" fill="#2D3B3A" text-anchor="middle" font-weight="600">answer(user_message, history)</text>
+
+<!-- 3. classify_intent() -->
+<line x1="395" y1="228" x2="554" y2="228" stroke="#6B6B66" stroke-width="1.3" marker-end="url(#arrow)"/>
+<text x="474" y="221" font-size="10" fill="#2D3B3A" text-anchor="middle" font-weight="600">classify_intent(user_message)</text>
+
+<!-- Note box: keyword-frequency scoring -->
+<rect x="460" y="240" width="216" height="52" rx="4" fill="#FFF8E1" stroke="#F39C12" stroke-width="0.8"/>
+<text x="568" y="256" font-size="9.5" fill="#7D6608" text-anchor="middle" font-weight="600" dominant-baseline="central">Keyword-frequency scoring</text>
+<text x="568" y="272" font-size="9.5" fill="#7D6608" text-anchor="middle" dominant-baseline="central">across 6 intent categories.</text>
+<text x="568" y="285" font-size="9.5" fill="#7D6608" text-anchor="middle" dominant-baseline="central">Extracts entity_id if present.</text>
+
+<!-- 4. ClassifiedIntent (dashed return) -->
+<line x1="554" y1="310" x2="396" y2="310" stroke="#6B6B66" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
+<text x="474" y="290" font-size="10" fill="#6B6B66" text-anchor="middle" font-style="italic">ClassifiedIntent</text>
+<text x="474" y="303" font-size="10" fill="#6B6B66" text-anchor="middle" font-style="italic">(category, confidence, entity_id)</text>
+
+<!-- 5. retrieve_context(intent) -->
+<line x1="395" y1="358" x2="714" y2="358" stroke="#6B6B66" stroke-width="1.3" marker-end="url(#arrow)"/>
+<text x="554" y="351" font-size="10" fill="#2D3B3A" text-anchor="middle" font-weight="600">retrieve_context(intent)</text>
+
+<!-- 6. Query DB -->
+<line x1="725" y1="388" x2="1319" y2="388" stroke="#6B6B66" stroke-width="1.3" marker-end="url(#arrow)"/>
+<text x="1022" y="370" font-size="10" fill="#2D3B3A" text-anchor="middle" font-weight="600">Query Cases / Evidence / CustodyLogs</text>
+<text x="1022" y="383" font-size="10" fill="#6B6B66" text-anchor="middle">based on intent category</text>
+
+<!-- 7. Raw records (dashed) -->
+<line x1="1319" y1="418" x2="726" y2="418" stroke="#6B6B66" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
+<text x="1022" y="411" font-size="10" fill="#6B6B66" text-anchor="middle" font-style="italic">Raw records</text>
+
+<!-- 8. RetrievedContext (dashed) -->
+<line x1="714" y1="462" x2="396" y2="462" stroke="#6B6B66" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
+<text x="554" y="445" font-size="10" fill="#6B6B66" text-anchor="middle" font-style="italic">RetrievedContext</text>
+<text x="554" y="458" font-size="10" fill="#6B6B66" text-anchor="middle" font-style="italic">(records, context_text)</text>
+
+<!-- 9. build_prompt() -->
+<line x1="395" y1="508" x2="864" y2="508" stroke="#6B6B66" stroke-width="1.3" marker-end="url(#arrow)"/>
+<text x="629" y="501" font-size="10" fill="#2D3B3A" text-anchor="middle" font-weight="600">build_prompt(message, context, history)</text>
+
+<!-- Note box: prompt building -->
+<rect x="724" y="520" width="230" height="54" rx="4" fill="#FFF8E1" stroke="#F39C12" stroke-width="0.8"/>
+<text x="839" y="535" font-size="9.5" fill="#7D6608" text-anchor="middle" font-weight="600" dominant-baseline="central">Embeds live DB context into</text>
+<text x="839" y="549" font-size="9.5" fill="#7D6608" text-anchor="middle" dominant-baseline="central">system prompt. Trims history</text>
+<text x="839" y="563" font-size="9.5" fill="#7D6608" text-anchor="middle" dominant-baseline="central">to last 6 turns.</text>
+
+<!-- 10. (messages[], system_content) (dashed) -->
+<line x1="864" y1="592" x2="396" y2="592" stroke="#6B6B66" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
+<text x="629" y="585" font-size="10" fill="#6B6B66" text-anchor="middle" font-style="italic">(messages[], system_content)</text>
+
+<!-- 11. call_llm(messages, system_content) -->
+<line x1="395" y1="628" x2="1014" y2="628" stroke="#6B6B66" stroke-width="1.3" marker-end="url(#arrow)"/>
+<text x="704" y="621" font-size="10" fill="#2D3B3A" text-anchor="middle" font-weight="600">call_llm(messages, system_content)</text>
+
+<!-- 12. POST to NVIDIA NIM API -->
+<rect x="956" y="640" width="180" height="44" rx="6" fill="#E8F6F0" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="1046" y="657" font-size="10" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">POST to NVIDIA NIM API</text>
+<text x="1046" y="673" font-size="9.5" fill="#1D9E75" text-anchor="middle" dominant-baseline="central">/v1/chat/completions</text>
+
+<!-- 13. raw reply (dashed) -->
+<line x1="1014" y1="710" x2="396" y2="710" stroke="#6B6B66" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
+<text x="704" y="694" font-size="10" fill="#6B6B66" text-anchor="middle" font-style="italic">raw_reply text</text>
+<text x="704" y="707" font-size="10" fill="#6B6B66" text-anchor="middle" font-style="italic">(or mock if no credits)</text>
+
+<!-- 14. validate_response() -->
+<line x1="395" y1="768" x2="1179" y2="768" stroke="#6B6B66" stroke-width="1.3" marker-end="url(#arrow)"/>
+<text x="787" y="761" font-size="10" fill="#2D3B3A" text-anchor="middle" font-weight="600">validate_response(raw_reply, intent)</text>
+
+<!-- Note box: validation checks -->
+<rect x="1068" y="780" width="200" height="54" rx="4" fill="#FFF8E1" stroke="#F39C12" stroke-width="0.8"/>
+<text x="1168" y="795" font-size="9.5" fill="#7D6608" text-anchor="middle" font-weight="600" dominant-baseline="central">Checks: min length,</text>
+<text x="1168" y="809" font-size="9.5" fill="#7D6608" text-anchor="middle" dominant-baseline="central">refusal patterns,</text>
+<text x="1168" y="823" font-size="9.5" fill="#7D6608" text-anchor="middle" dominant-baseline="central">off-topic signals.</text>
+
+<!-- 15. (reply, passed, warning) (dashed) -->
+<line x1="1179" y1="856" x2="396" y2="856" stroke="#6B6B66" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
+<text x="787" y="849" font-size="10" fill="#6B6B66" text-anchor="middle" font-style="italic">(reply, passed, warning)</text>
+
+<!-- 16. AssistantResponse (dashed back to route) -->
+<line x1="384" y1="898" x2="236" y2="898" stroke="#6B6B66" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
+<text x="310" y="876" font-size="10" fill="#6B6B66" text-anchor="middle" font-style="italic">AssistantResponse</text>
+<text x="310" y="889" font-size="10" fill="#6B6B66" text-anchor="middle" font-style="italic">(reply, intent, context_used,</text>
+<text x="310" y="902" font-size="10" fill="#6B6B66" text-anchor="middle" font-style="italic">validation_passed, warning)</text>
+
+<!-- 17. Update session history (self) -->
+<path d="M235 938 L280 938 L280 954 L236 954" fill="none" stroke="#6B6B66" stroke-width="1.3" marker-end="url(#arrow)"/>
+<text x="290" y="930" font-size="10" fill="#2D3B3A" text-anchor="start" font-weight="600">Update session history</text>
+<text x="290" y="944" font-size="10" fill="#6B6B66" text-anchor="start">(keep last 10 turns)</text>
+
+<!-- 18. JSON response -->
+<line x1="224" y1="990" x2="86" y2="990" stroke="#6B6B66" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
+<text x="154" y="971" font-size="10" fill="#6B6B66" text-anchor="middle" font-style="italic">JSON response</text>
+<text x="154" y="984" font-size="10" fill="#6B6B66" text-anchor="middle" font-style="italic">{reply, intent, context_used,</text>
+<text x="154" y="997" font-size="10" fill="#6B6B66" text-anchor="middle" font-style="italic">validation_passed, warning}</text>
+
+<!-- ====== LEGEND ====== -->
+<line x1="40" y1="1072" x2="70" y2="1072" stroke="#6B6B66" stroke-width="1.3"/>
+<text x="76" y="1072" font-size="10" fill="#6B6B66" text-anchor="start" dominant-baseline="central">synchronous call</text>
+<line x1="220" y1="1072" x2="250" y2="1072" stroke="#6B6B66" stroke-width="1.3" stroke-dasharray="5 3"/>
+<text x="256" y="1072" font-size="10" fill="#6B6B66" text-anchor="start" dominant-baseline="central">return / response</text>
+<rect x="395" y="1066" width="14" height="12" rx="2" fill="#FFF8E1" stroke="#F39C12" stroke-width="0.8"/>
+<text x="416" y="1072" font-size="10" fill="#6B6B66" text-anchor="start" dominant-baseline="central">internal note</text>
+<rect x="520" y="1066" width="14" height="12" rx="2" fill="#F4F3FB" stroke="#AFA9EC" stroke-width="0.8"/>
+<text x="541" y="1072" font-size="10" fill="#6B6B66" text-anchor="start" dominant-baseline="central">activation box</text>
+</svg>

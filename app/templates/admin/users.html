@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}User Management — DEICMS{% endblock %}
+{% block content %}
+<div class="topbar">
+  <span class="page-title"><i class="bi bi-people"></i>User Management</span>
+  <a href="{{ url_for('admin.create_user') }}" class="btn btn-primary btn-sm">
+    <i class="bi bi-person-plus me-1"></i>New Investigator
+  </a>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <i class="bi bi-shield-lock me-1"></i>Investigator Accounts
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0 align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Name</th><th>Email</th><th>Role</th>
+            <th>Status</th><th>Created</th><th class="text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for inv in investigators %}
+          <tr>
+            <td class="fw-semibold">{{ inv.full_name }}</td>
+            <td class="text-muted small">{{ inv.email }}</td>
+            <td>
+              <form method="POST"
+                    action="{{ url_for('admin.change_role', user_id=inv.id) }}"
+                    class="d-flex gap-1">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <select name="role" class="form-select form-select-sm" style="width:auto;"
+                        {% if inv.id == current_user.id %}disabled{% endif %}>
+                  {% for r in ['Admin','Lead Investigator','Analyst','Read-Only'] %}
+                  <option value="{{ r }}" {% if inv.role == r %}selected{% endif %}>{{ r }}</option>
+                  {% endfor %}
+                </select>
+                {% if inv.id != current_user.id %}
+                <button type="submit" class="btn btn-sm btn-outline-secondary">Set</button>
+                {% endif %}
+              </form>
+            </td>
+            <td>
+              {% if not inv.is_active %}
+                <span class="badge bg-secondary">Inactive</span>
+              {% elif inv.is_locked() %}
+                <span class="badge bg-danger">Locked</span>
+              {% else %}
+                <span class="badge bg-success">Active</span>
+              {% endif %}
+              {% if inv.failed_login_count and inv.failed_login_count > 0 %}
+                <span class="text-muted small">({{ inv.failed_login_count }} fails)</span>
+              {% endif %}
+            </td>
+            <td class="text-muted small">{{ inv.created_at.strftime('%d %b %Y') }}</td>
+            <td class="text-end">
+              {% if inv.id != current_user.id %}
+              <div class="d-inline-flex gap-1">
+                {% if inv.is_locked() or (inv.failed_login_count and inv.failed_login_count > 0) %}
+                <form method="POST" action="{{ url_for('admin.unlock_account', user_id=inv.id) }}">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                  <button type="submit" class="btn btn-sm btn-outline-warning">
+                    <i class="bi bi-unlock"></i> Unlock
+                  </button>
+                </form>
+                {% endif %}
+                <form method="POST" action="{{ url_for('admin.toggle_active', user_id=inv.id) }}">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                  <button type="submit"
+                          class="btn btn-sm {% if inv.is_active %}btn-outline-danger{% else %}btn-outline-primary{% endif %}">
+                    {% if inv.is_active %}Deactivate{% else %}Activate{% endif %}
+                  </button>
+                </form>
+              </div>
+              {% else %}
+                <span class="text-muted small">You</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% else %}
+          <tr><td colspan="6" class="text-center text-muted py-4">No accounts.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

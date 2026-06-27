@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 1180 720" role="img" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+<title>Deployment Diagram — DEICMS</title><desc>Deployment diagram showing the browser connecting over HTTPS/TLS on port 5001 to the Werkzeug development server running the Flask app, with encrypted data stores and the external NVIDIA NIM API.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#6B6B66" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker><marker id="tarrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#1D9E75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect x="0" y="0" width="1180" height="720" fill="#FFFFFF"/>
+<text x="40" y="34" font-size="18" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">Deployment Diagram — DEICMS</text>
+<text x="40" y="56" font-size="11" fill="#6B6B66" text-anchor="start" font-weight="400" dominant-baseline="central">The application is now served over HTTPS (TLS) on port 5001; data is encrypted at rest.</text>
+<rect x="60" y="110" width="260" height="150" fill="#FFFFFF" rx="8" stroke="#AFA9EC" stroke-width="1.4"/>
+<rect x="60" y="110" width="260" height="26" fill="#3C3489" rx="8" stroke="#AFA9EC" stroke-width="1.4"/>
+<rect x="60" y="128" width="260" height="8" fill="#3C3489" rx="0"/>
+<text x="190.0" y="119" font-size="8.5" fill="#CECBF6" text-anchor="middle" font-weight="700" dominant-baseline="central">«device»</text>
+<text x="190.0" y="129" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">Investigator Workstation</text>
+<rect x="90" y="160" width="200" height="70" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="190.0" y="195.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">Web Browser</text>
+<rect x="440" y="90" width="420" height="300" fill="#FFFFFF" rx="8" stroke="#AFA9EC" stroke-width="1.4"/>
+<rect x="440" y="90" width="420" height="26" fill="#3C3489" rx="8" stroke="#AFA9EC" stroke-width="1.4"/>
+<rect x="440" y="108" width="420" height="8" fill="#3C3489" rx="0"/>
+<text x="650.0" y="99" font-size="8.5" fill="#CECBF6" text-anchor="middle" font-weight="700" dominant-baseline="central">«device»</text>
+<text x="650.0" y="109" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">Development Host (localhost)</text>
+<rect x="470" y="140" width="360" height="40" fill="#F4F3FB" rx="6" stroke="#AFA9EC" stroke-width="1.1"/>
+<text x="650.0" y="160.0" font-size="11" fill="#2D3B3A" text-anchor="middle" font-weight="700" dominant-baseline="central">Python virtual environment (venv)</text>
+<rect x="470" y="196" width="360" height="56" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="650.0" y="217.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">Werkzeug dev server — run.py</text>
+<text x="650.0" y="232.0" font-size="8.5" fill="#6B6B66" text-anchor="middle" font-weight="400" dominant-baseline="central">app.run(ssl_context=(cert.pem, key.pem), port=5001)</text>
+<rect x="470" y="266" width="360" height="46" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="650.0" y="289.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">DEICMS Flask application</text>
+<rect x="470" y="326" width="170" height="44" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="555.0" y="341.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">cert.pem</text>
+<text x="555.0" y="356.0" font-size="8.5" fill="#6B6B66" text-anchor="middle" font-weight="400" dominant-baseline="central">self-signed TLS</text>
+<rect x="660" y="326" width="170" height="44" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="745.0" y="341.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">key.pem</text>
+<text x="745.0" y="356.0" font-size="8.5" fill="#6B6B66" text-anchor="middle" font-weight="400" dominant-baseline="central">RSA 2048 private key</text>
+<rect x="440" y="440" width="420" height="210" fill="#FFFFFF" rx="8" stroke="#1D9E75" stroke-width="1.4"/>
+<rect x="440" y="440" width="420" height="26" fill="#0F6E56" rx="8" stroke="#1D9E75" stroke-width="1.4"/>
+<rect x="440" y="458" width="420" height="8" fill="#0F6E56" rx="0"/>
+<text x="650.0" y="449" font-size="8.5" fill="#9FE1CB" text-anchor="middle" font-weight="700" dominant-baseline="central">«data store»</text>
+<text x="650.0" y="459" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">Persistent Storage</text>
+<rect x="470" y="490" width="360" height="60" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="650.0" y="513.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">deicms.db  (SQLite)</text>
+<text x="650.0" y="528.0" font-size="8.5" fill="#6B6B66" text-anchor="middle" font-weight="400" dominant-baseline="central">investigator private keys encrypted with Fernet</text>
+<rect x="470" y="566" width="360" height="60" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="650.0" y="589.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">uploads/  (evidence files)</text>
+<text x="650.0" y="604.0" font-size="8.5" fill="#6B6B66" text-anchor="middle" font-weight="400" dominant-baseline="central">each file encrypted with AES-256-GCM</text>
+<rect x="940" y="110" width="200" height="150" fill="#FFFFFF" rx="8" stroke="#AFA9EC" stroke-width="1.4"/>
+<rect x="940" y="110" width="200" height="26" fill="#3C3489" rx="8" stroke="#AFA9EC" stroke-width="1.4"/>
+<rect x="940" y="128" width="200" height="8" fill="#3C3489" rx="0"/>
+<text x="1040.0" y="119" font-size="8.5" fill="#CECBF6" text-anchor="middle" font-weight="700" dominant-baseline="central">«external»</text>
+<text x="1040.0" y="129" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">NVIDIA NIM API</text>
+<rect x="965" y="160" width="150" height="70" fill="#E8F6F0" rx="6" stroke="#1D9E75" stroke-width="1.1"/>
+<text x="1040.0" y="195.0" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">LLM service</text>
+<line x1="320" y1="185" x2="440" y2="185" stroke="#1D9E75" stroke-width="1.8" marker-end="url(#tarrow)"/>
+<text x="380" y="150" font-size="10" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">HTTPS / TLS</text>
+<text x="380" y="168" font-size="10" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">port 5001</text>
+<line x1="650" y1="390" x2="650" y2="440" stroke="#6B6B66" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="662" y="415" font-size="9" fill="#6B6B66" text-anchor="start" font-weight="400" dominant-baseline="central">reads / writes (encrypted)</text>
+<line x1="860" y1="200" x2="940" y2="185" stroke="#6B6B66" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="900" y="165" font-size="9" fill="#6B6B66" text-anchor="middle" font-weight="400" dominant-baseline="central">HTTPS</text>
+</svg>

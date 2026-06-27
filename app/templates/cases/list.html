@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Cases — DEICMS{% endblock %}
+{% block content %}
+<div class="topbar">
+  <span class="page-title"><i class="bi bi-folder"></i>Investigation Cases</span>
+  {% if current_user.can_manage() %}
+  <a href="{{ url_for('cases.create_case') }}" class="btn btn-primary btn-sm">
+    <i class="bi bi-plus-lg me-1"></i>New Case
+  </a>
+  {% endif %}
+</div>
+
+<div class="card">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Case No.</th><th>Title</th><th>Jurisdiction</th>
+            <th>Status</th><th>Opened</th><th>Evidence</th><th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for case in cases %}
+          <tr>
+            <td><code>{{ case.case_number }}</code></td>
+            <td class="fw-semibold">{{ case.title }}</td>
+            <td>{{ case.jurisdiction or '—' }}</td>
+            <td>
+              {% set colours = {'Open':'primary','Active':'success','Pending':'warning','Closed':'secondary','Archived':'dark'} %}
+              <span class="badge bg-{{ colours.get(case.status,'secondary') }}">{{ case.status }}</span>
+            </td>
+            <td class="text-muted small">{{ case.date_opened.strftime('%d %b %Y') }}</td>
+            <td>{{ case.evidence_items.count() }}</td>
+            <td>
+              <a href="{{ url_for('cases.view_case', case_id=case.id) }}"
+                 class="btn btn-sm btn-outline-primary">View</a>
+            </td>
+          </tr>
+          {% else %}
+          <tr><td colspan="7" class="text-center text-muted py-4">No cases yet. Create your first case.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

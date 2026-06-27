@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block title %}Risk Report — {{ evidence.title }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <div class="d-flex align-items-center mb-4">
+    <a href="{{ url_for('evidence.view_evidence', case_id=evidence.case_id, evidence_id=evidence.id) }}"
+       class="btn btn-outline-secondary me-3">Back to Evidence</a>
+    <h2 class="mb-0">Risk Report: {{ evidence.title }}</h2>
+  </div>
+
+  {# ── Risk level banner ── #}
+  {% set color_map = {'LOW': 'success', 'MEDIUM': 'warning', 'HIGH': 'danger', 'CRITICAL': 'dark'} %}
+  <div class="alert alert-{{ color_map.get(report.risk_level, 'secondary') }} d-flex align-items-center mb-4">
+    <div class="fs-1 me-3">
+      {% if report.risk_level == 'LOW' %}
+        <i class="bi bi-check-circle-fill text-dark"></i>
+      {% elif report.risk_level == 'MEDIUM' %}
+        <i class="bi bi-exclamation-circle-fill text-dark"></i>
+      {% elif report.risk_level == 'HIGH' or report.risk_level == 'CRITICAL' %}
+        <i class="bi bi-exclamation-triangle-fill text-dark"></i>
+      {% else %}
+        <i class="bi bi-info-circle-fill text-dark"></i>
+      {% endif %}
+    </div>
+    <div>
+      <h4 class="mb-1">Forensic Risk Level: <strong>{{ report.risk_level }}</strong></h4>
+      <p class="mb-0">
+        Forensic Risk Score: <strong>{{ '%.4f' | format(report.final_score) }}</strong>
+      </p>
+      <small class="text-muted">
+        Computed at {{ report.computed_at.strftime('%Y-%m-%d %H:%M:%S UTC') }}
+      </small>
+    </div>
+  </div>
+
+  {# ── Score bar ── #}
+  <div class="card mb-4 shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title mb-3">Overall Forensic Risk Profile</h5>
+      <div class="row g-4">
+        <div class="col-md-12">
+          <div class="p-3 border rounded bg-light">
+            <h6 class="fw-bold mb-1">Compliance Risk (Rule-Based)</h6>
+            <p class="small text-muted mb-3">Vulnerability rules, integrity checks, and event warnings.</p>
+            {% set pct = (report.final_score * 100) | int %}
+            {% set bar_color = 'success' if report.risk_level == 'LOW'
+                          else 'warning' if report.risk_level == 'MEDIUM'
+                          else 'danger' if report.risk_level == 'HIGH'
+                          else 'dark' %}
+            <div class="progress mb-2" style="height:24px;">
+              <div class="progress-bar bg-{{ bar_color }} fw-bold" style="width:{{ pct }}%">
+                {{ '%.3f' | format(report.final_score) }}
+              </div>
+            </div>
+            <span class="risk-badge level-{{ report.risk_level | lower }}">{{ report.risk_level }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ── Factor breakdown ── #}
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-light">
+      <h5 class="mb-0">Risk Factor Breakdown</h5>
+    </div>
+    <div class="card-body p-0">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Factor</th>
+            <th>Raw Value</th>
+            <th style="min-width:140px;">Normalised Score</th>
+            <th>Weight</th>
+            <th>Contribution</th>
+            <th>Explanation</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for f in report.factors %}
+          <tr>
+            <td><code>{{ f.name }}</code></td>
+            <td>{{ f.raw_value }}</td>
+            <td>
+              {% set bar_pct = (f.normalised_score * 100) | int %}
+              {% set bar_col = 'success' if f.normalised_score < 0.25
+                          else 'warning' if f.normalised_score < 0.5
+                          else 'danger' %}
+              <div class="progress" style="height:18px;">
+                <div class="progress-bar bg-{{ bar_col }}"
+                     style="width:{{ bar_pct }}%">
+                  {{ '%.2f' | format(f.normalised_score) }}
+                </div>
+              </div>
+            </td>
+            <td>{{ '%.2f' | format(f.weight) }}</td>
+            <td><strong>{{ '%.4f' | format(f.contribution) }}</strong></td>
+            <td><small class="text-muted">{{ f.explanation }}</small></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot class="table-light">
+          <tr>
+            <td colspan="4" class="text-end fw-bold">Base Score (weighted sum):</td>
+            <td colspan="2"><strong>{{ '%.4f' | format(report.base_score) }}</strong></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+  {# ── Interaction effects ── #}
+  {% if report.interactions %}
+  <div class="card mb-4 border-danger shadow-sm">
+    <div class="card-header bg-danger text-white">
+      <h5 class="mb-0"><i class="bi bi-lightning-charge-fill me-2"></i>Dangerous Factor Interactions Detected</h5>
+    </div>
+    <ul class="list-group list-group-flush">
+      {% for ix in report.interactions %}
+      <li class="list-group-item">
+        <span class="badge bg-danger me-2">×{{ ix.multiplier }}</span>
+        <strong>{{ ix.factor_names | join(' + ') }}</strong>
+        — {{ ix.explanation }}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% else %}
+  <div class="alert alert-info mb-4">
+    <i class="bi bi-check-circle me-2"></i>No dangerous factor interactions detected.
+  </div>
+  {% endif %}
+
+  {# ── Recommendations ── #}
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-light">
+      <h5 class="mb-0"><i class="bi bi-card-text me-2"></i>Recommendations</h5>
+    </div>
+    <ul class="list-group list-group-flush">
+      {% for rec in report.recommendations %}
+      <li class="list-group-item">{{ rec }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <a href="{{ url_for('risk.risk_dashboard') }}" class="btn btn-outline-primary">
+    View Risk Dashboard
+  </a>
+
+</div>
+{% endblock %}

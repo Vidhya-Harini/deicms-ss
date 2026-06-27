@@ -1,0 +1,290 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 1120 820" role="img" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+<title>Entity-Relationship Diagram — DEICMS</title><desc>ER diagram of the six database tables, their columns and relationships, including the new case_access table and the new authentication columns on investigators.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#6B6B66" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker><marker id="tarrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#1D9E75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect x="0" y="0" width="1120" height="820" fill="#FFFFFF"/>
+<text x="40" y="34" font-size="18" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">Entity-Relationship Diagram — DEICMS</text>
+<text x="40" y="56" font-size="11" fill="#6B6B66" text-anchor="start" font-weight="400" dominant-baseline="central">New elements added for the security features are shown in green.</text>
+<rect x="40" y="80" width="250" height="28" fill="#3C3489" rx="7" stroke="#AFA9EC" stroke-width="1"/>
+<rect x="40" y="101" width="250" height="7" fill="#3C3489" rx="0"/>
+<text x="165.0" y="94.0" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">investigators</text>
+<rect x="40" y="108" width="250" height="247" fill="#FFFFFF" rx="0" stroke="#AFA9EC" stroke-width="1"/>
+<text x="49" y="117.5" font-size="11" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">PK id</text>
+<text x="281" y="117.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">INTEGER</text>
+<rect x="41" y="128" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="49" y="136.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">full_name</text>
+<text x="281" y="136.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">VARCHAR(150)</text>
+<line x1="40" y1="127" x2="290" y2="127" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="49" y="155.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">UK email</text>
+<text x="281" y="155.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">VARCHAR UNIQUE</text>
+<line x1="40" y1="146" x2="290" y2="146" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="41" y="166" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="49" y="174.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">password_hash</text>
+<text x="281" y="174.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">VARCHAR(256)</text>
+<line x1="40" y1="165" x2="290" y2="165" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="49" y="193.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">role</text>
+<text x="281" y="193.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">ENUM</text>
+<line x1="40" y1="184" x2="290" y2="184" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="41" y="204" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="49" y="212.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">public_key</text>
+<text x="281" y="212.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">TEXT</text>
+<line x1="40" y1="203" x2="290" y2="203" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="49" y="231.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">private_key_encrypted</text>
+<text x="281" y="231.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">TEXT</text>
+<line x1="40" y1="222" x2="290" y2="222" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="41" y="242" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="49" y="250.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">is_active</text>
+<text x="281" y="250.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">BOOLEAN</text>
+<line x1="40" y1="241" x2="290" y2="241" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="41" y="261" width="248" height="18" fill="#E8F6F0" rx="0"/>
+<text x="49" y="269.5" font-size="11" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">failed_login_count</text>
+<text x="281" y="269.5" font-size="10" fill="#1D9E75" text-anchor="end" font-weight="400" dominant-baseline="central">INTEGER</text>
+<line x1="40" y1="260" x2="290" y2="260" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="41" y="280" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<rect x="41" y="280" width="248" height="18" fill="#E8F6F0" rx="0"/>
+<text x="49" y="288.5" font-size="11" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">locked_until</text>
+<text x="281" y="288.5" font-size="10" fill="#1D9E75" text-anchor="end" font-weight="400" dominant-baseline="central">DATETIME</text>
+<line x1="40" y1="279" x2="290" y2="279" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="41" y="299" width="248" height="18" fill="#E8F6F0" rx="0"/>
+<text x="49" y="307.5" font-size="11" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">totp_secret</text>
+<text x="281" y="307.5" font-size="10" fill="#1D9E75" text-anchor="end" font-weight="400" dominant-baseline="central">VARCHAR(64)</text>
+<line x1="40" y1="298" x2="290" y2="298" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="41" y="318" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="49" y="326.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">created_at</text>
+<text x="281" y="326.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">DATETIME</text>
+<line x1="40" y1="317" x2="290" y2="317" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="49" y="345.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">updated_at</text>
+<text x="281" y="345.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">DATETIME</text>
+<line x1="40" y1="336" x2="290" y2="336" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="430" y="80" width="250" height="28" fill="#3C3489" rx="7" stroke="#AFA9EC" stroke-width="1"/>
+<rect x="430" y="101" width="250" height="7" fill="#3C3489" rx="0"/>
+<text x="555.0" y="94.0" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">cases</text>
+<rect x="430" y="108" width="250" height="228" fill="#FFFFFF" rx="0" stroke="#AFA9EC" stroke-width="1"/>
+<text x="439" y="117.5" font-size="11" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">PK id</text>
+<text x="671" y="117.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">INTEGER</text>
+<rect x="431" y="128" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="439" y="136.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">UK case_number</text>
+<text x="671" y="136.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">VARCHAR UNIQUE</text>
+<line x1="430" y1="127" x2="680" y2="127" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="439" y="155.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">title</text>
+<text x="671" y="155.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">VARCHAR(200)</text>
+<line x1="430" y1="146" x2="680" y2="146" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="431" y="166" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="439" y="174.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">description</text>
+<text x="671" y="174.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">TEXT</text>
+<line x1="430" y1="165" x2="680" y2="165" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="439" y="193.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">jurisdiction</text>
+<text x="671" y="193.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">VARCHAR(150)</text>
+<line x1="430" y1="184" x2="680" y2="184" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="431" y="204" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="439" y="212.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">status</text>
+<text x="671" y="212.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">ENUM</text>
+<line x1="430" y1="203" x2="680" y2="203" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="439" y="231.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">is_archived</text>
+<text x="671" y="231.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">BOOLEAN</text>
+<line x1="430" y1="222" x2="680" y2="222" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="431" y="242" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="439" y="250.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">date_opened</text>
+<text x="671" y="250.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">DATE</text>
+<line x1="430" y1="241" x2="680" y2="241" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="439" y="269.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">date_closed</text>
+<text x="671" y="269.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">DATE</text>
+<line x1="430" y1="260" x2="680" y2="260" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="431" y="280" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="439" y="288.5" font-size="11" fill="#7A5CC0" text-anchor="start" font-weight="400" dominant-baseline="central">FK created_by_id</text>
+<text x="671" y="288.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">INTEGER</text>
+<line x1="430" y1="279" x2="680" y2="279" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="439" y="307.5" font-size="11" fill="#7A5CC0" text-anchor="start" font-weight="400" dominant-baseline="central">FK assigned_to_id</text>
+<text x="671" y="307.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">INTEGER</text>
+<line x1="430" y1="298" x2="680" y2="298" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="431" y="318" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="439" y="326.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">created_at</text>
+<text x="671" y="326.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">DATETIME</text>
+<line x1="430" y1="317" x2="680" y2="317" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="820" y="80" width="260" height="28" fill="#0F6E56" rx="7" stroke="#1D9E75" stroke-width="1"/>
+<rect x="820" y="101" width="260" height="7" fill="#0F6E56" rx="0"/>
+<text x="950.0" y="94.0" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">case_access</text>
+<text x="1074" y="94.0" font-size="9" fill="#9FE1CB" text-anchor="end" font-weight="700" dominant-baseline="central">NEW</text>
+<rect x="820" y="108" width="260" height="114" fill="#FFFFFF" rx="0" stroke="#1D9E75" stroke-width="1"/>
+<text x="829" y="117.5" font-size="11" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">PK id</text>
+<text x="1071" y="117.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">INTEGER</text>
+<rect x="821" y="128" width="258" height="18" fill="#F4F3FB" rx="0"/>
+<text x="829" y="136.5" font-size="11" fill="#7A5CC0" text-anchor="start" font-weight="400" dominant-baseline="central">FK case_id</text>
+<text x="1071" y="136.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">INTEGER</text>
+<line x1="820" y1="127" x2="1080" y2="127" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="829" y="155.5" font-size="11" fill="#7A5CC0" text-anchor="start" font-weight="400" dominant-baseline="central">FK investigator_id</text>
+<text x="1071" y="155.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">INTEGER</text>
+<line x1="820" y1="146" x2="1080" y2="146" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="821" y="166" width="258" height="18" fill="#F4F3FB" rx="0"/>
+<text x="829" y="174.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">permission</text>
+<text x="1071" y="174.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">ENUM</text>
+<line x1="820" y1="165" x2="1080" y2="165" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="829" y="193.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">granted_at</text>
+<text x="1071" y="193.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">DATETIME</text>
+<line x1="820" y1="184" x2="1080" y2="184" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="821" y="204" width="258" height="18" fill="#F4F3FB" rx="0"/>
+<text x="829" y="212.5" font-size="11" fill="#7A5CC0" text-anchor="start" font-weight="400" dominant-baseline="central">FK granted_by_id</text>
+<text x="1071" y="212.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">INTEGER</text>
+<line x1="820" y1="203" x2="1080" y2="203" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="40" y="400" width="250" height="28" fill="#3C3489" rx="7" stroke="#AFA9EC" stroke-width="1"/>
+<rect x="40" y="421" width="250" height="7" fill="#3C3489" rx="0"/>
+<text x="165.0" y="414.0" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">evidence_items</text>
+<rect x="40" y="428" width="250" height="304" fill="#FFFFFF" rx="0" stroke="#AFA9EC" stroke-width="1"/>
+<text x="49" y="437.5" font-size="11" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">PK id</text>
+<text x="281" y="437.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">INTEGER</text>
+<rect x="41" y="448" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="49" y="456.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">UK evidence_number</text>
+<text x="281" y="456.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">VARCHAR UNIQUE</text>
+<line x1="40" y1="447" x2="290" y2="447" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="49" y="475.5" font-size="11" fill="#7A5CC0" text-anchor="start" font-weight="400" dominant-baseline="central">FK case_id</text>
+<text x="281" y="475.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">INTEGER</text>
+<line x1="40" y1="466" x2="290" y2="466" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="41" y="486" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="49" y="494.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">title</text>
+<text x="281" y="494.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">VARCHAR(200)</text>
+<line x1="40" y1="485" x2="290" y2="485" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="49" y="513.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">category</text>
+<text x="281" y="513.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">ENUM</text>
+<line x1="40" y1="504" x2="290" y2="504" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="41" y="524" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="49" y="532.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">lifecycle_state</text>
+<text x="281" y="532.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">ENUM</text>
+<line x1="40" y1="523" x2="290" y2="523" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="49" y="551.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">file_name</text>
+<text x="281" y="551.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">VARCHAR(255)</text>
+<line x1="40" y1="542" x2="290" y2="542" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="41" y="562" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="49" y="570.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">file_path</text>
+<text x="281" y="570.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">VARCHAR(500)</text>
+<line x1="40" y1="561" x2="290" y2="561" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="49" y="589.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">file_mime_type</text>
+<text x="281" y="589.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">VARCHAR(100)</text>
+<line x1="40" y1="580" x2="290" y2="580" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="41" y="600" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="49" y="608.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">original_hash</text>
+<text x="281" y="608.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">VARCHAR(64)</text>
+<line x1="40" y1="599" x2="290" y2="599" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="49" y="627.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">current_hash</text>
+<text x="281" y="627.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">VARCHAR(64)</text>
+<line x1="40" y1="618" x2="290" y2="618" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="41" y="638" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="49" y="646.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">exif_metadata</text>
+<text x="281" y="646.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">TEXT</text>
+<line x1="40" y1="637" x2="290" y2="637" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="49" y="665.5" font-size="11" fill="#7A5CC0" text-anchor="start" font-weight="400" dominant-baseline="central">FK uploaded_by_id</text>
+<text x="281" y="665.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">INTEGER</text>
+<line x1="40" y1="656" x2="290" y2="656" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="41" y="676" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="49" y="684.5" font-size="11" fill="#7A5CC0" text-anchor="start" font-weight="400" dominant-baseline="central">FK current_holder_id</text>
+<text x="281" y="684.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">INTEGER</text>
+<line x1="40" y1="675" x2="290" y2="675" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="49" y="703.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">risk_score</text>
+<text x="281" y="703.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">FLOAT</text>
+<line x1="40" y1="694" x2="290" y2="694" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="41" y="714" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="49" y="722.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">risk_level</text>
+<text x="281" y="722.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">ENUM</text>
+<line x1="40" y1="713" x2="290" y2="713" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="430" y="420" width="250" height="28" fill="#3C3489" rx="7" stroke="#AFA9EC" stroke-width="1"/>
+<rect x="430" y="441" width="250" height="7" fill="#3C3489" rx="0"/>
+<text x="555.0" y="434.0" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">custody_logs</text>
+<rect x="430" y="448" width="250" height="209" fill="#FFFFFF" rx="0" stroke="#AFA9EC" stroke-width="1"/>
+<text x="439" y="457.5" font-size="11" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">PK id</text>
+<text x="671" y="457.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">INTEGER</text>
+<rect x="431" y="468" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="439" y="476.5" font-size="11" fill="#7A5CC0" text-anchor="start" font-weight="400" dominant-baseline="central">FK evidence_id</text>
+<text x="671" y="476.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">INTEGER</text>
+<line x1="430" y1="467" x2="680" y2="467" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="439" y="495.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">event_type</text>
+<text x="671" y="495.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">ENUM</text>
+<line x1="430" y1="486" x2="680" y2="486" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="431" y="506" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="439" y="514.5" font-size="11" fill="#7A5CC0" text-anchor="start" font-weight="400" dominant-baseline="central">FK from_investigator_id</text>
+<text x="671" y="514.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">INTEGER</text>
+<line x1="430" y1="505" x2="680" y2="505" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="439" y="533.5" font-size="11" fill="#7A5CC0" text-anchor="start" font-weight="400" dominant-baseline="central">FK to_investigator_id</text>
+<text x="671" y="533.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">INTEGER</text>
+<line x1="430" y1="524" x2="680" y2="524" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="431" y="544" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="439" y="552.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">timestamp</text>
+<text x="671" y="552.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">DATETIME</text>
+<line x1="430" y1="543" x2="680" y2="543" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="439" y="571.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">location</text>
+<text x="671" y="571.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">VARCHAR(200)</text>
+<line x1="430" y1="562" x2="680" y2="562" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="431" y="582" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="439" y="590.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">reason</text>
+<text x="671" y="590.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">TEXT</text>
+<line x1="430" y1="581" x2="680" y2="581" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="439" y="609.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">file_hash_at_event</text>
+<text x="671" y="609.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">VARCHAR(64)</text>
+<line x1="430" y1="600" x2="680" y2="600" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="431" y="620" width="248" height="18" fill="#F4F3FB" rx="0"/>
+<text x="439" y="628.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">digital_signature</text>
+<text x="671" y="628.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">TEXT</text>
+<line x1="430" y1="619" x2="680" y2="619" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="439" y="647.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">notes</text>
+<text x="671" y="647.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">TEXT</text>
+<line x1="430" y1="638" x2="680" y2="638" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="820" y="420" width="260" height="28" fill="#3C3489" rx="7" stroke="#AFA9EC" stroke-width="1"/>
+<rect x="820" y="441" width="260" height="7" fill="#3C3489" rx="0"/>
+<text x="950.0" y="434.0" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">audit_records</text>
+<rect x="820" y="448" width="260" height="190" fill="#FFFFFF" rx="0" stroke="#AFA9EC" stroke-width="1"/>
+<text x="829" y="457.5" font-size="11" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">PK id</text>
+<text x="1071" y="457.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">INTEGER</text>
+<rect x="821" y="468" width="258" height="18" fill="#F4F3FB" rx="0"/>
+<text x="829" y="476.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">event_type</text>
+<text x="1071" y="476.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">ENUM</text>
+<line x1="820" y1="467" x2="1080" y2="467" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="829" y="495.5" font-size="11" fill="#7A5CC0" text-anchor="start" font-weight="400" dominant-baseline="central">FK investigator_id</text>
+<text x="1071" y="495.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">INTEGER</text>
+<line x1="820" y1="486" x2="1080" y2="486" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="821" y="506" width="258" height="18" fill="#F4F3FB" rx="0"/>
+<text x="829" y="514.5" font-size="11" fill="#7A5CC0" text-anchor="start" font-weight="400" dominant-baseline="central">FK evidence_id</text>
+<text x="1071" y="514.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">INTEGER</text>
+<line x1="820" y1="505" x2="1080" y2="505" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="829" y="533.5" font-size="11" fill="#7A5CC0" text-anchor="start" font-weight="400" dominant-baseline="central">FK case_id</text>
+<text x="1071" y="533.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">INTEGER</text>
+<line x1="820" y1="524" x2="1080" y2="524" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="821" y="544" width="258" height="18" fill="#F4F3FB" rx="0"/>
+<text x="829" y="552.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">description</text>
+<text x="1071" y="552.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">TEXT</text>
+<line x1="820" y1="543" x2="1080" y2="543" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="829" y="571.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">ip_address</text>
+<text x="1071" y="571.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">VARCHAR(50)</text>
+<line x1="820" y1="562" x2="1080" y2="562" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="821" y="582" width="258" height="18" fill="#F4F3FB" rx="0"/>
+<text x="829" y="590.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">result</text>
+<text x="1071" y="590.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">ENUM</text>
+<line x1="820" y1="581" x2="1080" y2="581" stroke="#C9C5E6" stroke-width="0.6"/>
+<text x="829" y="609.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">integrity_check_result</text>
+<text x="1071" y="609.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">TEXT</text>
+<line x1="820" y1="600" x2="1080" y2="600" stroke="#C9C5E6" stroke-width="0.6"/>
+<rect x="821" y="620" width="258" height="18" fill="#F4F3FB" rx="0"/>
+<text x="829" y="628.5" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">timestamp</text>
+<text x="1071" y="628.5" font-size="10" fill="#6B6B66" text-anchor="end" font-weight="400" dominant-baseline="central">DATETIME</text>
+<line x1="820" y1="619" x2="1080" y2="619" stroke="#C9C5E6" stroke-width="0.6"/>
+<polyline points="290,150 360.0,150 360.0,170 430,170" fill="none" stroke="#6B6B66" stroke-width="1.3"/>
+<text x="298" y="141" font-size="11" fill="#6B6B66" text-anchor="middle" font-weight="700" dominant-baseline="central">1</text>
+<text x="418" y="161" font-size="11" fill="#6B6B66" text-anchor="middle" font-weight="700" dominant-baseline="central">N</text>
+<polyline points="455,336 455,400" fill="none" stroke="#6B6B66" stroke-width="1.3"/>
+<text x="467" y="372" font-size="11" fill="#6B6B66" text-anchor="start" font-weight="700" dominant-baseline="central">1</text>
+<text x="467" y="392" font-size="11" fill="#6B6B66" text-anchor="start" font-weight="700" dominant-baseline="central">N</text>
+<polyline points="290,470 360.0,470 360.0,470 430,470" fill="none" stroke="#6B6B66" stroke-width="1.3"/>
+<text x="298" y="461" font-size="11" fill="#6B6B66" text-anchor="middle" font-weight="700" dominant-baseline="central">1</text>
+<text x="418" y="461" font-size="11" fill="#6B6B66" text-anchor="middle" font-weight="700" dominant-baseline="central">N</text>
+<polyline points="165,355 165,690 430,690" fill="none" stroke="#6B6B66" stroke-width="1.3"/>
+<text x="180" y="540" font-size="11" fill="#6B6B66" text-anchor="start" font-weight="700" dominant-baseline="central">1</text>
+<text x="415" y="682" font-size="11" fill="#6B6B66" text-anchor="start" font-weight="700" dominant-baseline="central">N</text>
+<polyline points="680,150 750.0,150 750.0,150 820,150" fill="none" stroke="#1D9E75" stroke-width="1.3"/>
+<text x="688" y="141" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">1</text>
+<text x="808" y="141" font-size="11" fill="#1D9E75" text-anchor="middle" font-weight="700" dominant-baseline="central">N</text>
+<polyline points="290,110 360,110 360,60 950,60 950,80" fill="none" stroke="#1D9E75" stroke-width="1.3"/>
+<text x="305" y="102" font-size="11" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">1</text>
+<text x="950" y="72" font-size="11" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">N</text>
+<polyline points="290,470 555.0,470 555.0,470 820,470" fill="none" stroke="#6B6B66" stroke-width="1.3"/>
+<text x="298" y="461" font-size="11" fill="#6B6B66" text-anchor="middle" font-weight="700" dominant-baseline="central">1</text>
+<text x="808" y="461" font-size="11" fill="#6B6B66" text-anchor="middle" font-weight="700" dominant-baseline="central">N</text>
+<rect x="40" y="770" width="16" height="12" fill="#E8F6F0" rx="2" stroke="#1D9E75" stroke-width="1"/>
+<text x="64" y="776" font-size="11" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">New (security features)</text>
+<text x="250" y="776" font-size="11" fill="#6B6B66" text-anchor="start" font-weight="400" dominant-baseline="central">PK = primary key    FK = foreign key    UK = unique key    1—N = one-to-many</text>
+</svg>

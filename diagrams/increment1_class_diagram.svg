@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 1240 1020" role="img" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+<title>Class Diagram — DEICMS</title><desc>UML class diagram of the models, logic engines and security utility modules, including the new CaseAccess class, new authentication methods and the new encryption/validation modules.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#6B6B66" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker><marker id="tarrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#1D9E75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect x="0" y="0" width="1240" height="1020" fill="#FFFFFF"/>
+<text x="40" y="34" font-size="18" fill="#3C3489" text-anchor="start" font-weight="700" dominant-baseline="central">Class Diagram — DEICMS</text>
+<text x="40" y="56" font-size="11" fill="#6B6B66" text-anchor="start" font-weight="400" dominant-baseline="central">New classes, methods and modules added for the security features are shown in green («new»).</text>
+<rect x="40" y="80" width="250" height="318" fill="#FFFFFF" rx="7" stroke="#AFA9EC" stroke-width="1.2"/>
+<rect x="40" y="80" width="250" height="30" fill="#3C3489" rx="7" stroke="#AFA9EC" stroke-width="1.2"/>
+<rect x="40" y="102" width="250" height="8" fill="#3C3489" rx="0"/>
+<text x="165.0" y="95.0" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">Investigator</text>
+<text x="50" y="122.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">id: int</text>
+<text x="50" y="139.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">full_name: str</text>
+<text x="50" y="156.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">email: str</text>
+<text x="50" y="173.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">role: enum</text>
+<text x="50" y="190.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">password_hash: str</text>
+<text x="50" y="207.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">public_key: text</text>
+<text x="50" y="224.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">private_key_encrypted: text</text>
+<text x="50" y="241.5" font-size="10.5" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">failed_login_count: int</text>
+<text x="50" y="258.5" font-size="10.5" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">locked_until: datetime</text>
+<text x="50" y="275.5" font-size="10.5" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">totp_secret: str</text>
+<line x1="40" y1="286" x2="290" y2="286" stroke="#AFA9EC" stroke-width="1"/>
+<text x="50" y="300.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">set_password() / check_password()</text>
+<text x="50" y="317.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">is_admin() / can_manage()</text>
+<text x="50" y="334.5" font-size="10.5" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">is_locked()</text>
+<text x="50" y="351.5" font-size="10.5" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">record_failed_login()</text>
+<text x="50" y="368.5" font-size="10.5" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">reset_login_attempts()</text>
+<text x="50" y="385.5" font-size="10.5" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">is_2fa_enabled()</text>
+<rect x="320" y="80" width="230" height="182" fill="#FFFFFF" rx="7" stroke="#AFA9EC" stroke-width="1.2"/>
+<rect x="320" y="80" width="230" height="30" fill="#3C3489" rx="7" stroke="#AFA9EC" stroke-width="1.2"/>
+<rect x="320" y="102" width="230" height="8" fill="#3C3489" rx="0"/>
+<text x="435.0" y="95.0" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">Case</text>
+<text x="330" y="122.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">id: int</text>
+<text x="330" y="139.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">case_number: str</text>
+<text x="330" y="156.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">title: str</text>
+<text x="330" y="173.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">status: enum</text>
+<text x="330" y="190.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">is_archived: bool</text>
+<text x="330" y="207.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">created_by_id: fk</text>
+<text x="330" y="224.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">assigned_to_id: fk</text>
+<line x1="320" y1="235" x2="550" y2="235" stroke="#AFA9EC" stroke-width="1"/>
+<text x="330" y="249.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">(managed via routes)</text>
+<rect x="580" y="80" width="250" height="233" fill="#FFFFFF" rx="7" stroke="#AFA9EC" stroke-width="1.2"/>
+<rect x="580" y="80" width="250" height="30" fill="#3C3489" rx="7" stroke="#AFA9EC" stroke-width="1.2"/>
+<rect x="580" y="102" width="250" height="8" fill="#3C3489" rx="0"/>
+<text x="705.0" y="95.0" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">EvidenceItem</text>
+<text x="590" y="122.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">id: int</text>
+<text x="590" y="139.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">evidence_number: str</text>
+<text x="590" y="156.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">case_id: fk</text>
+<text x="590" y="173.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">category: enum</text>
+<text x="590" y="190.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">lifecycle_state: enum</text>
+<text x="590" y="207.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">file_path: str</text>
+<text x="590" y="224.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">original_hash: str</text>
+<text x="590" y="241.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">current_hash: str</text>
+<text x="590" y="258.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">risk_score: float</text>
+<text x="590" y="275.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">risk_level: enum</text>
+<line x1="580" y1="286" x2="830" y2="286" stroke="#AFA9EC" stroke-width="1"/>
+<text x="590" y="300.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">(scored &amp; state-managed)</text>
+<rect x="860" y="80" width="250" height="199" fill="#FFFFFF" rx="7" stroke="#1D9E75" stroke-width="1.2"/>
+<rect x="860" y="80" width="250" height="30" fill="#0F6E56" rx="7" stroke="#1D9E75" stroke-width="1.2"/>
+<rect x="860" y="102" width="250" height="8" fill="#0F6E56" rx="0"/>
+<text x="985.0" y="91" font-size="9" fill="#9FE1CB" text-anchor="middle" font-weight="700" dominant-baseline="central">«new»</text>
+<text x="985.0" y="101" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">CaseAccess</text>
+<text x="870" y="122.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">id: int</text>
+<text x="870" y="139.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">case_id: fk</text>
+<text x="870" y="156.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">investigator_id: fk</text>
+<text x="870" y="173.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">permission: enum</text>
+<text x="870" y="190.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">granted_by_id: fk</text>
+<line x1="860" y1="201" x2="1110" y2="201" stroke="#1D9E75" stroke-width="1"/>
+<text x="870" y="215.5" font-size="10.5" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">get_permission()</text>
+<text x="870" y="232.5" font-size="10.5" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">can_access()</text>
+<text x="870" y="249.5" font-size="10.5" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">can_manage_members()</text>
+<text x="870" y="266.5" font-size="10.5" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">grant()</text>
+<rect x="40" y="430" width="250" height="182" fill="#FFFFFF" rx="7" stroke="#AFA9EC" stroke-width="1.2"/>
+<rect x="40" y="430" width="250" height="30" fill="#3C3489" rx="7" stroke="#AFA9EC" stroke-width="1.2"/>
+<rect x="40" y="452" width="250" height="8" fill="#3C3489" rx="0"/>
+<text x="165.0" y="445.0" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">CustodyLog</text>
+<text x="50" y="472.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">id: int</text>
+<text x="50" y="489.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">evidence_id: fk</text>
+<text x="50" y="506.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">event_type: enum</text>
+<text x="50" y="523.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">from_investigator_id: fk</text>
+<text x="50" y="540.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">to_investigator_id: fk</text>
+<text x="50" y="557.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">file_hash_at_event: str</text>
+<text x="50" y="574.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">digital_signature: text</text>
+<line x1="40" y1="585" x2="290" y2="585" stroke="#AFA9EC" stroke-width="1"/>
+<text x="50" y="599.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">(write-once handoff record)</text>
+<rect x="320" y="430" width="250" height="199" fill="#FFFFFF" rx="7" stroke="#AFA9EC" stroke-width="1.2"/>
+<rect x="320" y="430" width="250" height="30" fill="#3C3489" rx="7" stroke="#AFA9EC" stroke-width="1.2"/>
+<rect x="320" y="452" width="250" height="8" fill="#3C3489" rx="0"/>
+<text x="445.0" y="445.0" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">AuditRecord</text>
+<text x="330" y="472.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">id: int</text>
+<text x="330" y="489.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">event_type: enum</text>
+<text x="330" y="506.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">investigator_id: fk</text>
+<text x="330" y="523.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">evidence_id: fk</text>
+<text x="330" y="540.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">case_id: fk</text>
+<text x="330" y="557.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">ip_address: str</text>
+<text x="330" y="574.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">result: enum</text>
+<text x="330" y="591.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">timestamp: datetime</text>
+<line x1="320" y1="602" x2="570" y2="602" stroke="#AFA9EC" stroke-width="1"/>
+<text x="330" y="616.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">(append-only / immutable)</text>
+<rect x="600" y="430" width="250" height="131" fill="#FFFFFF" rx="7" stroke="#AFA9EC" stroke-width="1.2"/>
+<rect x="600" y="430" width="250" height="30" fill="#3C3489" rx="7" stroke="#AFA9EC" stroke-width="1.2"/>
+<rect x="600" y="452" width="250" height="8" fill="#3C3489" rx="0"/>
+<text x="725.0" y="445.0" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">EvidenceStateMachine</text>
+<text x="610" y="472.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">evidence</text>
+<text x="610" y="489.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">current_user</text>
+<text x="610" y="506.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">TRANSITION_TABLE</text>
+<line x1="600" y1="517" x2="850" y2="517" stroke="#AFA9EC" stroke-width="1"/>
+<text x="610" y="531.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">transition_to()</text>
+<text x="610" y="548.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">get_available_transitions()</text>
+<rect x="880" y="430" width="300" height="148" fill="#FFFFFF" rx="7" stroke="#AFA9EC" stroke-width="1.2"/>
+<rect x="880" y="430" width="300" height="30" fill="#3C3489" rx="7" stroke="#AFA9EC" stroke-width="1.2"/>
+<rect x="880" y="452" width="300" height="8" fill="#3C3489" rx="0"/>
+<text x="1030.0" y="445.0" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">GraphIntegrityEngine</text>
+<text x="890" y="472.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">evidence</text>
+<text x="890" y="489.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">failures: list</text>
+<line x1="880" y1="500" x2="1180" y2="500" stroke="#AFA9EC" stroke-width="1"/>
+<text x="890" y="514.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">verify() → IntegrityReport</text>
+<text x="890" y="531.5" font-size="10.5" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">• re-hash decrypted file</text>
+<text x="890" y="548.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">• verify Ed25519 signature</text>
+<text x="890" y="565.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">• check timestamp order</text>
+<rect x="600" y="640" width="250" height="97" fill="#FFFFFF" rx="7" stroke="#AFA9EC" stroke-width="1.2"/>
+<rect x="600" y="640" width="250" height="30" fill="#3C3489" rx="7" stroke="#AFA9EC" stroke-width="1.2"/>
+<rect x="600" y="662" width="250" height="8" fill="#3C3489" rx="0"/>
+<text x="725.0" y="655.0" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">EvidenceRiskScorer</text>
+<text x="610" y="682.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">WEIGHTS (6 factors)</text>
+<line x1="600" y1="693" x2="850" y2="693" stroke="#AFA9EC" stroke-width="1"/>
+<text x="610" y="707.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">score() → RiskReport</text>
+<text x="610" y="724.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">_classify()</text>
+<rect x="880" y="640" width="300" height="97" fill="#FFFFFF" rx="7" stroke="#AFA9EC" stroke-width="1.2"/>
+<rect x="880" y="640" width="300" height="30" fill="#3C3489" rx="7" stroke="#AFA9EC" stroke-width="1.2"/>
+<rect x="880" y="662" width="300" height="8" fill="#3C3489" rx="0"/>
+<text x="1030.0" y="655.0" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">AnomalyDetector / ChainReconstruction</text>
+<text x="890" y="682.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">IsolationForest model</text>
+<line x1="880" y1="693" x2="1180" y2="693" stroke="#AFA9EC" stroke-width="1"/>
+<text x="890" y="707.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">detect() → anomalies</text>
+<text x="890" y="724.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">reconstruct() → timeline</text>
+<rect x="40" y="640" width="250" height="131" fill="#FFFFFF" rx="7" stroke="#1D9E75" stroke-width="1.2"/>
+<rect x="40" y="640" width="250" height="30" fill="#0F6E56" rx="7" stroke="#1D9E75" stroke-width="1.2"/>
+<rect x="40" y="662" width="250" height="8" fill="#0F6E56" rx="0"/>
+<text x="165.0" y="651" font-size="9" fill="#9FE1CB" text-anchor="middle" font-weight="700" dominant-baseline="central">«module · updated»</text>
+<text x="165.0" y="661" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">crypto</text>
+<text x="50" y="682.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">(Ed25519 + Fernet)</text>
+<line x1="40" y1="693" x2="290" y2="693" stroke="#1D9E75" stroke-width="1"/>
+<text x="50" y="707.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">generate_key_pair()</text>
+<text x="50" y="724.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">sign_payload() / verify()</text>
+<text x="50" y="741.5" font-size="10.5" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">encrypt_private_key()</text>
+<text x="50" y="758.5" font-size="10.5" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">load_private_key_pem()</text>
+<rect x="40" y="830" width="250" height="114" fill="#FFFFFF" rx="7" stroke="#1D9E75" stroke-width="1.2"/>
+<rect x="40" y="830" width="250" height="30" fill="#0F6E56" rx="7" stroke="#1D9E75" stroke-width="1.2"/>
+<rect x="40" y="852" width="250" height="8" fill="#0F6E56" rx="0"/>
+<text x="165.0" y="841" font-size="9" fill="#9FE1CB" text-anchor="middle" font-weight="700" dominant-baseline="central">«new module»</text>
+<text x="165.0" y="851" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">file_crypto</text>
+<text x="50" y="872.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">AES-256-GCM key</text>
+<line x1="40" y1="883" x2="290" y2="883" stroke="#1D9E75" stroke-width="1"/>
+<text x="50" y="897.5" font-size="10.5" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">encrypt_file()</text>
+<text x="50" y="914.5" font-size="10.5" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">read_plaintext()</text>
+<text x="50" y="931.5" font-size="10.5" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">is_encrypted()</text>
+<rect x="320" y="830" width="250" height="80" fill="#FFFFFF" rx="7" stroke="#1D9E75" stroke-width="1.2"/>
+<rect x="320" y="830" width="250" height="30" fill="#0F6E56" rx="7" stroke="#1D9E75" stroke-width="1.2"/>
+<rect x="320" y="852" width="250" height="8" fill="#0F6E56" rx="0"/>
+<text x="445.0" y="841" font-size="9" fill="#9FE1CB" text-anchor="middle" font-weight="700" dominant-baseline="central">«new module»</text>
+<text x="445.0" y="851" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">validators</text>
+<text x="330" y="872.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">PASSWORD rules</text>
+<line x1="320" y1="883" x2="570" y2="883" stroke="#1D9E75" stroke-width="1"/>
+<text x="330" y="897.5" font-size="10.5" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">validate_password_strength()</text>
+<rect x="600" y="830" width="250" height="80" fill="#FFFFFF" rx="7" stroke="#1D9E75" stroke-width="1.2"/>
+<rect x="600" y="830" width="250" height="30" fill="#0F6E56" rx="7" stroke="#1D9E75" stroke-width="1.2"/>
+<rect x="600" y="852" width="250" height="8" fill="#0F6E56" rx="0"/>
+<text x="725.0" y="841" font-size="9" fill="#9FE1CB" text-anchor="middle" font-weight="700" dominant-baseline="central">«new module»</text>
+<text x="725.0" y="851" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">keyderive</text>
+<text x="610" y="872.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">master secret</text>
+<line x1="600" y1="883" x2="850" y2="883" stroke="#1D9E75" stroke-width="1"/>
+<text x="610" y="897.5" font-size="10.5" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">derive_key()</text>
+<line x1="290" y1="150" x2="320" y2="150" stroke="#6B6B66" stroke-width="1.2" marker-end="url(#arrow)"/>
+<line x1="550" y1="150" x2="580" y2="150" stroke="#6B6B66" stroke-width="1.2" marker-end="url(#arrow)"/>
+<line x1="830" y1="150" x2="860" y2="150" stroke="#1D9E75" stroke-width="1.4" marker-end="url(#tarrow)"/>
+<line x1="165" y1="300" x2="165" y2="430" stroke="#6B6B66" stroke-width="1.2" marker-end="url(#arrow)"/>
+<line x1="725" y1="300" x2="725" y2="430" stroke="#6B6B66" stroke-width="1.2" marker-end="url(#arrow)"/>
+</svg>

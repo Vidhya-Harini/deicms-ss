@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verify Code — DEICMS</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet" />
+  <style>
+    body { background:#f4f7f6; min-height:100vh; display:flex; align-items:center; justify-content:center; font-family:'Source Sans 3',sans-serif; }
+    .login-card { width:100%; max-width:420px; border:none; border-radius:14px; box-shadow:0 4px 24px rgba(0,0,0,.06); }
+    .login-header { background:#2D3B3A; border-radius:14px 14px 0 0; padding:2rem; text-align:center; }
+    .login-header h4 { color:#fff; margin:0; font-weight:700; letter-spacing:.5px; }
+    .login-header span { color:#3DBFA0; }
+    .login-header p { color:#A8BFBD; font-size:.85rem; margin:.5rem 0 0; }
+    .btn-primary { background:#2D8A6A !important; border-color:#2D8A6A !important; }
+    .btn-primary:hover { background:#246E55 !important; border-color:#246E55 !important; }
+    .otp-input { letter-spacing:.4rem; text-align:center; font-size:1.3rem; }
+  </style>
+</head>
+<body>
+  <div class="login-card card">
+    <div class="login-header">
+      <h4>DEI<span>CMS</span></h4>
+      <p>Two-Factor Authentication</p>
+    </div>
+    <div class="card-body p-4">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}{% for category, message in messages %}
+          <div class="alert alert-{{ category }} py-2 small">{{ message }}</div>
+        {% endfor %}{% endif %}
+      {% endwith %}
+      <p class="text-muted small mb-3">
+        <i class="bi bi-shield-lock me-1"></i>
+        Enter the 6-digit code from your authenticator app to finish signing in.
+      </p>
+      <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <div class="mb-4">
+          <input type="text" name="otp" class="form-control otp-input"
+                 inputmode="numeric" autocomplete="one-time-code"
+                 maxlength="6" placeholder="000000" required autofocus />
+        </div>
+        <button type="submit" class="btn btn-primary w-100 fw-semibold">
+          <i class="bi bi-check2-circle me-1"></i> Verify
+        </button>
+      </form>
+      <div class="text-center mt-3">
+        <a href="{{ url_for('auth.login') }}" class="small text-muted">Back to login</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
