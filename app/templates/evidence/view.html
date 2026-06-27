@@ -107,10 +107,9 @@
       <div class="card-body p-0">
         <div class="table-responsive">
           <table class="table table-hover mb-0">
-            <thead class="table-light">
               <tr>
                 <th>#</th><th>Event</th><th>From</th><th>To</th>
-                <th>Location</th><th>Reason</th><th>Time</th>
+                <th>Location</th><th>Reason</th><th>Time</th><th>Signature (Truncated)</th>
               </tr>
             </thead>
             <tbody>
@@ -123,9 +122,12 @@
                 <td class="small text-muted">{{ log.location or '—' }}</td>
                 <td class="small">{{ log.reason or '—' }}</td>
                 <td class="small text-muted">{{ log.timestamp.strftime('%d %b %Y %H:%M') }}</td>
+                <td class="small text-muted font-monospace" title="{{ log.digital_signature }}">
+                    {{ log.digital_signature[:16] + '...' if log.digital_signature else '—' }}
+                </td>
               </tr>
               {% else %}
-              <tr><td colspan="7" class="text-center text-muted py-3">No custody events recorded.</td></tr>
+              <tr><td colspan="8" class="text-center text-muted py-3">No custody events recorded.</td></tr>
               {% endfor %}
             </tbody>
           </table>

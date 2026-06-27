@@ -7,4 +7,4 @@ __pycache__/
 deicms.db
 cert.pem
 key.pem
-app/static/uploads/
+uploads/

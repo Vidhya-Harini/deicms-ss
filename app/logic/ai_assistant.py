@@ -359,7 +359,10 @@ class AIInvestigationAssistant:
                     temperature=0.7,
                 )
                 return response.choices[0].message.content or ""
-            except Exception:
+            except Exception as e:
+                import traceback
+                print("CLAUDE CALL FAILED:", repr(e))
+                traceback.print_exc()
                 pass  # fall through to mock
 
         return self._mock_response(messages, system_content)

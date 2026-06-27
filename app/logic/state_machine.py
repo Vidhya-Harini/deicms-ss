@@ -84,6 +84,16 @@ TRANSITION_TABLE = {
         'required_roles': ['Admin', 'Lead Investigator', 'Analyst'],
         'preconditions': []
     },
+    # Collected -> Transferred: moving physical/digital custody before analysis
+    ('Collected', 'Transferred'): {
+        'required_roles': ['Admin', 'Lead Investigator', 'Analyst'],
+        'preconditions': []
+    },
+    # Submitted -> Transferred: moving custody after submission
+    ('Submitted', 'Transferred'): {
+        'required_roles': ['Admin', 'Lead Investigator', 'Analyst'],
+        'preconditions': []
+    },
     # Under Analysis -> Archived: Lead or Admin
     # Requires a passed integrity check
     ('Under Analysis', 'Archived'): {
