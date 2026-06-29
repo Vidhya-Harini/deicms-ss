@@ -8,6 +8,7 @@ issued by a trusted Certificate Authority, the browser will show a one-time
 "your connection is not private" warning on first visit. This is expected for
 local development.
 """
+from datetime import timedelta
 import datetime
 from datetime import timezone
 import ipaddress
@@ -39,8 +40,8 @@ def generate_self_signed_cert(cert_path=CERT_PATH, key_path=KEY_PATH):
         .issuer_name(issuer)
         .public_key(key.public_key())
         .serial_number(x509.random_serial_number())
-        .not_valid_before(datetime.datetime.now(timezone.utc).replace(tzinfo=None) - datetime.timedelta(days=1))
-        .not_valid_after(datetime.datetime.now(timezone.utc).replace(tzinfo=None) + datetime.timedelta(days=365))
+        .not_valid_before(datetime.(datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None) - datetime.timedelta(days=1))
+        .not_valid_after(datetime.(datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None) + datetime.timedelta(days=365))
         .add_extension(
             x509.SubjectAlternativeName([
                 x509.DNSName(u'localhost'),

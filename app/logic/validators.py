@@ -8,7 +8,7 @@ MIN_LENGTH = 12
 
 def validate_password_strength(password: str):
     """
-    Return a list of human-readable rule violations for `password`.
+    Return a list of human-readable rule violations for 'password'.
     An empty list means the password satisfies the policy.
     """
     errors = []

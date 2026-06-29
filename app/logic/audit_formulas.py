@@ -9,7 +9,8 @@ These are formula-based checks over database records:
 These are deliberately kept simple (DB queries + arithmetic).
 The more complex anomaly detection belongs in Increment 3.
 """
-from datetime import datetime, timezone, timedelta
+from datetime import timedelta
+from datetime import datetime, timezone
 from app.models.custody_log import CustodyLog
 from app.models.audit_record import AuditRecord
 from app.models.evidence import EvidenceItem
@@ -208,7 +209,7 @@ def run_all_formula_checks(evidence_id: int, gap_threshold_hours: int = 72) -> d
 
     return {
         'evidence_id': evidence_id,
-        'ran_at': datetime.now(timezone.utc).replace(tzinfo=None),
+        'ran_at': (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None),
         'time_gaps': time_gaps,
         'duplicates': duplicates,
         'role_mismatches': role_mismatches,

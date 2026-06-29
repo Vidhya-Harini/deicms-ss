@@ -1,3 +1,4 @@
+from datetime import timedelta
 from datetime import datetime, timezone
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
@@ -13,7 +14,7 @@ cases_bp = Blueprint('cases', __name__)
 
 def generate_case_number():
     """Auto-generate a unique case number like CASE-2024-001."""
-    year = datetime.now(timezone.utc).replace(tzinfo=None).year
+    year = (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None).year
     count = Case.query.count() + 1
     return f'CASE-{year}-{count:03d}'
 
@@ -233,7 +234,7 @@ def edit_case(case_id):
         case.status = request.form.get('status', case.status)
 
         if case.status == 'Closed' and old_status != 'Closed':
-            case.date_closed = datetime.now(timezone.utc).replace(tzinfo=None)
+            case.date_closed = (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None)
 
         audit = AuditRecord(
             event_type='Data Modification',

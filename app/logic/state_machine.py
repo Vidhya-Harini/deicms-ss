@@ -16,8 +16,7 @@ Each transition has:
     - A list of preconditions that must be satisfied before the transition
     - An automatic audit log entry on success or failure
 """
-from datetime import datetime
-from typing import Callable, List, Optional
+from typing import List, Optional
 
 
 # ── Transition table ──────────────────────────────────────────────────────────

@@ -32,7 +32,7 @@ def app():
 def sample_data(app):
     """
     Create a minimal but complete set of sample records:
-    admin investigator → case → evidence item → custody log entries.
+    admin investigator -> case -> evidence item -> custody log entries.
     Returns a dict of IDs for use in tests.
     """
     with app.app_context():

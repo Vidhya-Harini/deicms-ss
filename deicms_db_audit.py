@@ -57,7 +57,7 @@ def show_table(name, max_rows=5):
     if fks:
         print("  FOREIGN KEYS:")
         for fk in fks:
-            print(f"    {fk['from']:<25} → {fk['table']}.{fk['to']}")
+            print(f"    {fk['from']:<25} -> {fk['table']}.{fk['to']}")
 
     # Indexes
     idxs = conn.execute(f"PRAGMA index_list({name})").fetchall()

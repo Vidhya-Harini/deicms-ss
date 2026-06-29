@@ -73,7 +73,7 @@ class Config:
     RATELIMIT_STORAGE_URI = 'memory://'
 
     # ─────────────────────────────────────────────────────────────────────────
-    # Magic-byte MIME type → allowed extension mapping
+    # Magic-byte MIME type -> allowed extension mapping
     # Used by the file upload validator to verify the real file type
     MIME_TO_EXTENSIONS = {
         'image/png':       ['.png'],

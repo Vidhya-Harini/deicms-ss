@@ -14,10 +14,11 @@ Pipeline:
   6. Generate human-readable recommendations.
 """
 
+from datetime import timedelta
 import math
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import List, Optional, Dict, Tuple
+from typing import List, Dict, Tuple
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -29,7 +30,7 @@ class RiskFactor:
     """One scored risk dimension."""
     name: str
     raw_value: float
-    normalised_score: float   # 0.0 (no risk) → 1.0 (maximum risk)
+    normalised_score: float   # 0.0 (no risk) -> 1.0 (maximum risk)
     weight: float             # importance weight; all weights sum to 1.0
     contribution: float       # normalised_score × weight
     explanation: str
@@ -202,7 +203,7 @@ class EvidenceRiskScorer:
             risk_level=risk_level,
             factors=factors,
             interactions=interactions,
-            computed_at=datetime.now(timezone.utc).replace(tzinfo=None),
+            computed_at=(datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None),
             recommendations=recommendations,
         )
 
@@ -221,9 +222,9 @@ class EvidenceRiskScorer:
     def _factor_integrity(self, evidence) -> RiskFactor:
         """
         Categorical mapping:
-          VERIFIED     → 0.0 (no integrity risk)
-          NOT_CHECKED  → 0.5 (unknown risk)
-          FAILED       → 1.0 (maximum risk)
+          VERIFIED     -> 0.0 (no integrity risk)
+          NOT_CHECKED  -> 0.5 (unknown risk)
+          FAILED       -> 1.0 (maximum risk)
         """
         status = (getattr(evidence, 'integrity_status', None) or 'NOT_CHECKED').upper()
         mapping = {"VERIFIED": 0.0, "NOT_CHECKED": 0.5, "FAILED": 1.0}
@@ -235,7 +236,7 @@ class EvidenceRiskScorer:
             normalised_score=score,
             weight=w,
             contribution=round(score * w, 4),
-            explanation=f"Integrity status is '{status}' → score {score:.2f}",
+            explanation=f"Integrity status is '{status}' -> score {score:.2f}",
         )
 
     def _factor_file_type(self, evidence) -> RiskFactor:
@@ -294,14 +295,14 @@ class EvidenceRiskScorer:
             contribution=round(score * w, 4),
             explanation=(
                 f"{n - 1} transfer(s) over {span_days:.1f} day(s) "
-                f"= {rate:.2f}/day → score {score:.2f}"
+                f"= {rate:.2f}/day -> score {score:.2f}"
             ),
         )
         
     def _factor_role_mismatch(self, evidence) -> RiskFactor:
         """
         Counts ROLE_MISMATCH_DETECTED audit records for this evidence.
-        Log normalisation with scale=5 (> 5 mismatches → near-max risk).
+        Log normalisation with scale=5 (> 5 mismatches -> near-max risk).
         """
         from app.models.audit_record import AuditRecord
         count = AuditRecord.query.filter_by(
@@ -316,7 +317,7 @@ class EvidenceRiskScorer:
             normalised_score=round(score, 4),
             weight=w,
             contribution=round(score * w, 4),
-            explanation=f"{count} role-mismatch audit record(s) → score {score:.2f}",
+            explanation=f"{count} role-mismatch audit record(s) -> score {score:.2f}",
         )
 
     def _factor_inactivity(self, evidence, custody_logs) -> RiskFactor:
@@ -324,7 +325,7 @@ class EvidenceRiskScorer:
         Days since the last custody transfer, sigmoid centred at 30 days.
         """
         w = _WEIGHTS["time_since_last_activity"]
-        now = datetime.now(timezone.utc).replace(tzinfo=None)
+        now = (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None)
 
         if custody_logs:
             last_ts = custody_logs[-1].timestamp
@@ -344,7 +345,7 @@ class EvidenceRiskScorer:
             normalised_score=round(score, 4),
             weight=w,
             contribution=round(score * w, 4),
-            explanation=f"{days:.1f} day(s) since last activity → score {score:.2f}",
+            explanation=f"{days:.1f} day(s) since last activity -> score {score:.2f}",
         )
 
     def _factor_duplicates(self, evidence) -> RiskFactor:
@@ -365,7 +366,7 @@ class EvidenceRiskScorer:
             normalised_score=round(score, 4),
             weight=w,
             contribution=round(score * w, 4),
-            explanation=f"{count} duplicate-entry audit record(s) → score {score:.2f}",
+            explanation=f"{count} duplicate-entry audit record(s) -> score {score:.2f}",
         )
 
     # ── Stage 4: Interaction detection ───────────────────────────────────────

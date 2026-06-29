@@ -1,3 +1,4 @@
+from datetime import timedelta
 import os
 import hashlib
 import json
@@ -99,7 +100,7 @@ def extract_metadata(file_path, mime_type):
     metadata = {
         'file_size': os.path.getsize(file_path),
         'mime_type': mime_type,
-        'extracted_at': datetime.now(timezone.utc).replace(tzinfo=None).isoformat()
+        'extracted_at': (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None).isoformat()
     }
 
     if mime_type and mime_type.startswith('image/'):
@@ -166,7 +167,7 @@ def upload_evidence(case_id):
             flash('File type not allowed.', 'danger')
             return render_template('evidence/upload.html', case=case)
 
-        timestamp = datetime.now(timezone.utc).replace(tzinfo=None).strftime('%Y%m%d_%H%M%S')
+        timestamp = (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None).strftime('%Y%m%d_%H%M%S')
         from werkzeug.utils import secure_filename
         safe_filename = f"{timestamp}_{secure_filename(file.filename)}"
         file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], safe_filename)
@@ -233,7 +234,7 @@ def upload_evidence(case_id):
             event_type='Upload',
             from_investigator_id=None,
             to_investigator_id=current_user.id,
-            timestamp=datetime.now(timezone.utc).replace(tzinfo=None),
+            timestamp=(datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None),
             location=request.form.get('location', 'Unknown'),
             reason='Initial evidence upload',
             file_hash_at_event=file_hash,

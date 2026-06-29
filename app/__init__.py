@@ -1,3 +1,4 @@
+from datetime import timedelta
 from flask import Flask, request, session, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user, logout_user
@@ -70,7 +71,7 @@ def create_app():
         if current_user.is_authenticated:
             session.permanent = True
             from datetime import datetime, timezone
-            now = datetime.now(timezone.utc).replace(tzinfo=None).timestamp()
+            now = (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None).timestamp()
             timeout = app.config.get('IDLE_TIMEOUT_MINUTES', 30) * 60
             last = session.get('last_active')
             if last and (now - last) > timeout:

@@ -28,7 +28,7 @@
 <text x="440" y="498" font-size="11" fill="#6B6B66" text-anchor="middle" font-weight="600">Sprint Day</text>
 
 <!-- Y-axis ticks and grid (0 to 42, step 6) -->
-<!-- Points: 0→y460, 6→y414, 12→y368, 18→y322, 24→y276, 30→y230, 36→y184, 42→y138 -->
+<!-- Points: 0->y460, 6->y414, 12->y368, 18->y322, 24->y276, 30->y230, 36->y184, 42->y138 -->
 <!-- scale: (42-val)/42 * 322 + 138 -->
 <line x1="96"  y1="460" x2="780" y2="460" stroke="#EEF0F8" stroke-width="0.8"/>
 <text x="90"   y="460" font-size="10" fill="#6B6B66" text-anchor="end" dominant-baseline="central">0</text>

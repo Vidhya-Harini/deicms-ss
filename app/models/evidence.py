@@ -1,3 +1,4 @@
+from datetime import timedelta
 from datetime import datetime, timezone
 from app import db
 
@@ -71,9 +72,9 @@ class EvidenceItem(db.Model):
     )
 
     # Timestamps
-    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc).replace(tzinfo=None), nullable=False)
-    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc).replace(tzinfo=None),
-                           onupdate=lambda: datetime.now(timezone.utc).replace(tzinfo=None), nullable=False)
+    created_at = db.Column(db.DateTime, default=lambda: (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None), nullable=False)
+    updated_at = db.Column(db.DateTime, default=lambda: (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None),
+                           onupdate=lambda: (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None), nullable=False)
 
     # ── Relationships ─────────────────────────────────────────────────────
     # Full custody log for this evidence item

@@ -1,3 +1,4 @@
+from datetime import timedelta
 from collections import OrderedDict, defaultdict
 from datetime import datetime, timezone, timedelta
 
@@ -113,11 +114,11 @@ def index():
 
     # 4) Security activity over the last 30 days (Successful vs Security Alerts)
     window_days = 30
-    today = datetime.now(timezone.utc).replace(tzinfo=None).date()
+    today = (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None).date()
     date_axis = [today - timedelta(days=i) for i in range(window_days - 1, -1, -1)]
     succ = defaultdict(int)
     alert = defaultdict(int)
-    since = datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(days=window_days)
+    since = (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None) - timedelta(days=window_days)
     for rec in all_audits:
         if rec.timestamp and rec.timestamp >= since:
             d = rec.timestamp.date()

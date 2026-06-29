@@ -7,6 +7,7 @@ Usage:
 
 Safe to re-run — checks before creating anything.
 """
+from datetime import timedelta
 import hashlib
 from app import create_app, db
 from app.logic.crypto import generate_key_pair, sign_payload
@@ -28,8 +29,8 @@ def fake_hash(content: str) -> str:
 
 
 def ts(days_ago: float, hours_ago: float = 0) -> datetime:
-    """Return a UTC datetime offset from now."""
-    return datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(days=days_ago, hours=hours_ago)
+    """Return a utc datetime offset from now."""
+    return (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None) - timedelta(days=days_ago, hours=hours_ago)
 
 
 def add_custody(db, evidence, event_type, to_inv, from_inv=None,
@@ -40,7 +41,7 @@ def add_custody(db, evidence, event_type, to_inv, from_inv=None,
         event_type=event_type,
         from_investigator_id=from_inv.id if from_inv else None,
         to_investigator_id=to_inv.id if to_inv else None,
-        timestamp=when or datetime.now(timezone.utc).replace(tzinfo=None),
+        timestamp=when or (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None),
         location=location,
         reason=reason,
         file_hash_at_event=evidence.original_hash,
@@ -59,7 +60,7 @@ def add_audit(db, event_type, investigator, evidence=None,
         case_id=case.id if case else None,
         description=description,
         result=result,
-        timestamp=datetime.now(timezone.utc).replace(tzinfo=None),
+        timestamp=(datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None),
     )
     db.session.add(rec)
     return rec

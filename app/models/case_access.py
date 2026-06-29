@@ -1,3 +1,4 @@
+from datetime import timedelta
 from datetime import datetime, timezone
 from app import db
 
@@ -33,7 +34,7 @@ class CaseAccess(db.Model):
     )
 
     # When this access was granted and by whom
-    granted_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc).replace(tzinfo=None), nullable=False)
+    granted_at = db.Column(db.DateTime, default=lambda: (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None), nullable=False)
     granted_by_id = db.Column(db.Integer, db.ForeignKey('investigators.id'),
                               nullable=True)
 

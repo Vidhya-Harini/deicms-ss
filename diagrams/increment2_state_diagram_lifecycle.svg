@@ -49,11 +49,11 @@
 <text x="320" y="516" font-size="10" fill="#C0392B" text-anchor="middle" font-weight="400" dominant-baseline="central">(integrity issue)</text>
 
 <!-- ====== TRANSITIONS — normal ====== -->
-<!-- Collected → Submitted -->
+<!-- Collected -> Submitted -->
 <line x1="186" y1="167" x2="280" y2="167" stroke="#6B6B66" stroke-width="1.3" marker-end="url(#arrow)"/>
 <text x="233" y="160" font-size="9.5" fill="#6B6B66" text-anchor="middle" font-weight="600">Lead / Admin</text>
 
-<!-- Submitted → Under Analysis -->
+<!-- Submitted -> Under Analysis -->
 <line x1="392" y1="167" x2="490" y2="167" stroke="#6B6B66" stroke-width="1.3" marker-end="url(#arrow)"/>
 <text x="441" y="160" font-size="9.5" fill="#6B6B66" text-anchor="middle" font-weight="600">Analyst / Lead</text>
 
@@ -62,11 +62,11 @@
 <text x="645" y="250" font-size="9.5" fill="#6B6B66" text-anchor="start" font-weight="600">any role</text>
 <path d="M580 320 L580 220 L620 220" fill="none" stroke="#6B6B66" stroke-width="1.3" marker-end="url(#arrow)" stroke-dasharray="5 3"/>
 
-<!-- Transferred → Archived -->
+<!-- Transferred -> Archived -->
 <line x1="490" y1="342" x2="392" y2="342" stroke="#6B6B66" stroke-width="1.3" marker-end="url(#arrow)"/>
 <text x="441" y="335" font-size="9.5" fill="#6B6B66" text-anchor="middle" font-weight="600">Lead / Admin</text>
 
-<!-- Submitted → Archived (skip, admin only) -->
+<!-- Submitted -> Archived (skip, admin only) -->
 <path d="M336 189 L336 255 L310 255 L310 320" fill="none" stroke="#6B6B66" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
 <text x="290" y="255" font-size="9.5" fill="#6B6B66" text-anchor="end" font-weight="600">Admin only</text>
 
@@ -83,7 +83,7 @@
 <!-- From Transferred -->
 <path d="M490 342 L460 342 L460 504 L410 504" fill="none" stroke="#C0392B" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#rarrow)"/>
 
-<!-- Flagged → Under Analysis (resolution) -->
+<!-- Flagged -> Under Analysis (resolution) -->
 <path d="M410 480 L680 480 L680 167 L620 167" fill="none" stroke="#6B6B66" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
 <text x="700" y="325" font-size="9.5" fill="#6B6B66" text-anchor="start" font-weight="600">resolve</text>
 <text x="700" y="339" font-size="9.5" fill="#6B6B66" text-anchor="start" font-weight="600">[Admin]</text>

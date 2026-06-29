@@ -16,6 +16,7 @@ history, verifying:
 It produces a structured IntegrityReport with a chain completeness
 score and a detailed list of failures at specific nodes.
 """
+from datetime import timedelta
 import hashlib
 import json
 from dataclasses import dataclass, field
@@ -50,7 +51,7 @@ class IntegrityReport:
     verified_nodes: int
     failures: List[NodeFailure] = field(default_factory=list)
     verified_timeline: List[dict] = field(default_factory=list)
-    ran_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc).replace(tzinfo=None))
+    ran_at: datetime = field(default_factory=lambda: (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None))
 
     def to_dict(self) -> dict:
         """Serialise to a plain dict for JSON storage in AuditRecord."""
@@ -137,7 +138,7 @@ class GraphIntegrityEngine:
                 failures=[NodeFailure(
                     node_id=0,
                     event_type='N/A',
-                    timestamp=datetime.now(timezone.utc).replace(tzinfo=None),
+                    timestamp=(datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None),
                     failure_type='no_records',
                     detail='No custody log records found for this evidence item.'
                 )]

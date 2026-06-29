@@ -1,3 +1,4 @@
+from datetime import timedelta
 from datetime import datetime, timezone
 from app import db
 from sqlalchemy import event
@@ -54,7 +55,7 @@ class AuditRecord(db.Model):
     integrity_check_result = db.Column(db.Text, nullable=True)
 
     # When the event occurred
-    timestamp = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc).replace(tzinfo=None))
+    timestamp = db.Column(db.DateTime, nullable=False, default=lambda: (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None))
 
     def __repr__(self):
         return (f'<AuditRecord {self.event_type} '

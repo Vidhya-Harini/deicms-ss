@@ -113,7 +113,7 @@
 <text x="890" y="472.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">evidence</text>
 <text x="890" y="489.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">failures: list</text>
 <line x1="880" y1="500" x2="1180" y2="500" stroke="#AFA9EC" stroke-width="1"/>
-<text x="890" y="514.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">verify() → IntegrityReport</text>
+<text x="890" y="514.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">verify() -> IntegrityReport</text>
 <text x="890" y="531.5" font-size="10.5" fill="#1D9E75" text-anchor="start" font-weight="700" dominant-baseline="central">• re-hash decrypted file</text>
 <text x="890" y="548.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">• verify Ed25519 signature</text>
 <text x="890" y="565.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">• check timestamp order</text>
@@ -123,7 +123,7 @@
 <text x="725.0" y="655.0" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">EvidenceRiskScorer</text>
 <text x="610" y="682.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">WEIGHTS (6 factors)</text>
 <line x1="600" y1="693" x2="850" y2="693" stroke="#AFA9EC" stroke-width="1"/>
-<text x="610" y="707.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">score() → RiskReport</text>
+<text x="610" y="707.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">score() -> RiskReport</text>
 <text x="610" y="724.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">_classify()</text>
 <rect x="880" y="640" width="300" height="97" fill="#FFFFFF" rx="7" stroke="#AFA9EC" stroke-width="1.2"/>
 <rect x="880" y="640" width="300" height="30" fill="#3C3489" rx="7" stroke="#AFA9EC" stroke-width="1.2"/>
@@ -131,8 +131,8 @@
 <text x="1030.0" y="655.0" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="700" dominant-baseline="central">AnomalyDetector / ChainReconstruction</text>
 <text x="890" y="682.5" font-size="10.5" fill="#2D3B3A" text-anchor="start" font-weight="400" dominant-baseline="central">IsolationForest model</text>
 <line x1="880" y1="693" x2="1180" y2="693" stroke="#AFA9EC" stroke-width="1"/>
-<text x="890" y="707.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">detect() → anomalies</text>
-<text x="890" y="724.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">reconstruct() → timeline</text>
+<text x="890" y="707.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">detect() -> anomalies</text>
+<text x="890" y="724.5" font-size="10.5" fill="#5B4FA8" text-anchor="start" font-weight="400" dominant-baseline="central">reconstruct() -> timeline</text>
 <rect x="40" y="640" width="250" height="131" fill="#FFFFFF" rx="7" stroke="#1D9E75" stroke-width="1.2"/>
 <rect x="40" y="640" width="250" height="30" fill="#0F6E56" rx="7" stroke="#1D9E75" stroke-width="1.2"/>
 <rect x="40" y="662" width="250" height="8" fill="#0F6E56" rx="0"/>

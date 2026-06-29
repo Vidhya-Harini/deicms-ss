@@ -3,7 +3,7 @@ AI-Powered Anomaly Detection Workflow (Increment 3 — Optional)
 ==============================================================
 Category C — Complex Application Logic.
 
-Feature engineering pipeline → Isolation Forest scoring.
+Feature engineering pipeline -> Isolation Forest scoring.
 
 For each EvidenceItem, builds a 6-dimensional feature vector:
   1. transfer_count        — log-scaled total custody transfers
@@ -19,7 +19,7 @@ an anomaly score in [0.0, 1.0] where 1.0 = most anomalous.
 
 import math
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import timezone
 from typing import Dict, List
 
 import numpy as np
@@ -37,7 +37,7 @@ from app.logic.risk_scoring import _FILE_TYPE_RISK
 class AnomalyRecord:
     evidence_id: int
     evidence_title: str
-    anomaly_score: float        # 0.0 (normal) → 1.0 (highly anomalous)
+    anomaly_score: float        # 0.0 (normal) -> 1.0 (highly anomalous)
     is_anomaly: bool            # True if score ≥ ANOMALY_THRESHOLD
     feature_vector: Dict[str, float]
 
@@ -135,7 +135,7 @@ class AnomalyDetectionPipeline:
       5. Return AnomalyRecord list sorted descending by anomaly_score.
     """
 
-    ANOMALY_THRESHOLD = 0.6   # score above this → flagged as anomaly
+    ANOMALY_THRESHOLD = 0.6   # score above this -> flagged as anomaly
     MIN_SAMPLES = 3           # Isolation Forest needs at least a few samples
 
     def run(self) -> List[AnomalyRecord]:
@@ -172,7 +172,7 @@ class AnomalyDetectionPipeline:
         )
         clf.fit(X)
 
-        # decision_function: more negative → more anomalous
+        # decision_function: more negative -> more anomalous
         raw_scores = clf.decision_function(X)
 
         # Normalise to [0, 1]; invert so 1 = most anomalous

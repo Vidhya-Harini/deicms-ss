@@ -8,7 +8,7 @@ Run with:  pytest tests/test_increment3.py -v
 Run all:   pytest -v
 """
 
-import math
+from datetime import timedelta
 import pytest
 from datetime import datetime, timezone, timedelta
 from unittest.mock import MagicMock, patch
@@ -92,7 +92,7 @@ def _seed_db(db):
         original_hash='aabbcc' * 10,
         current_hash='aabbcc' * 10,
         uploaded_by_id=admin.id,
-        created_at=datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(days=60),
+        created_at=(datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None) - timedelta(days=60),
     )
 
     # ev2: .txt file — low file-type risk
@@ -106,7 +106,7 @@ def _seed_db(db):
         original_hash='ddeeff' * 10,
         current_hash='ddeeff' * 10,
         uploaded_by_id=admin.id,
-        created_at=datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(days=2),
+        created_at=(datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None) - timedelta(days=2),
     )
 
     # ev3: no extension — default file-type risk
@@ -120,14 +120,14 @@ def _seed_db(db):
         original_hash='112233' * 10,
         current_hash='112233' * 10,
         uploaded_by_id=analyst.id,
-        created_at=datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(days=10),
+        created_at=(datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None) - timedelta(days=10),
     )
 
     db.session.add_all([ev1, ev2, ev3])
     db.session.flush()
 
     # ── Custody logs for ev1 (rapid transfers) ────────────────────────────
-    now = datetime.now(timezone.utc).replace(tzinfo=None)
+    now = (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None)
     for i in range(4):
         log = CustodyLog(
             evidence_id=ev1.id,
@@ -774,12 +774,12 @@ class TestFeatureEngineering:
         ev.file_name = filename           # ← actual model field
         ev.original_filename = filename   # ← fallback still works
         ev.integrity_status = integrity
-        ev.created_at = datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(days=5)
+        ev.created_at = (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None) - timedelta(days=5)
         return ev
 
     def _make_mock_logs(self, n, hours_apart=1):
         logs = []
-        base = datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(hours=n * hours_apart)
+        base = (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None) - timedelta(hours=n * hours_apart)
         for i in range(n):
             log = MagicMock()
             ts = base + timedelta(hours=i * hours_apart)
@@ -844,7 +844,7 @@ class TestFeatureEngineering:
     def test_unique_handler_count_correct(self):
         from app.logic.anomaly_detection import compute_features
         ev = self._make_mock_evidence()
-        logs = self._make_mock_logs(4)   # alternates 0,1,0,1 → 2 unique
+        logs = self._make_mock_logs(4)   # alternates 0,1,0,1 -> 2 unique
         features = compute_features(ev, logs)
         assert features['unique_handler_count'] == 2.0
 

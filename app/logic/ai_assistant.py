@@ -4,7 +4,7 @@ AI Investigation Assistant — Orchestration Workflow
 Category C — Complex Application Logic.
 
 Five-stage pipeline (each stage is independently testable):
-  1. classify_intent   — keyword-frequency classifier → IntentCategory
+  1. classify_intent   — keyword-frequency classifier -> IntentCategory
   2. retrieve_context  — fetch relevant DB records based on intent
   3. build_prompt      — construct system prompt + message history
   4. call_claude       — send to Claude API, receive raw reply
@@ -71,7 +71,7 @@ class AIInvestigationAssistant:
     independently.
     """
 
-    # Intent → keywords lookup
+    # Intent -> keywords lookup
     _INTENT_KEYWORDS: Dict[IntentCategory, List[str]] = {
         IntentCategory.CASE_QUERY: [
             "case", "cases", "investigation", "case number", "case id",
@@ -252,7 +252,7 @@ class AIInvestigationAssistant:
                         handler = Investigator.query.get(log.to_investigator_id)
                         name = handler.full_name if handler else "Unknown"
                         lines.append(
-                            f"  {log.timestamp.date()} → {name} "
+                            f"  {log.timestamp.date()} -> {name} "
                             f"(reason: {log.reason or 'not specified'})"
                         )
                 else:
@@ -272,7 +272,7 @@ class AIInvestigationAssistant:
                     handler = Investigator.query.get(log.to_investigator_id)
                     name = handler.full_name if handler else "Unknown"
                     lines.append(
-                        f"  Evidence #{log.evidence_id} → {name} "
+                        f"  Evidence #{log.evidence_id} -> {name} "
                         f"on {log.timestamp.date()}"
                     )
                     

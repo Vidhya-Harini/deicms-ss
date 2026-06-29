@@ -7,6 +7,7 @@ Now includes:
   - Chain Reconstruction endpoint
   - Evidence state change endpoint
 """
+from datetime import timedelta
 import json
 from datetime import datetime, timezone
 from flask import (Blueprint, render_template, redirect, url_for,
@@ -95,7 +96,7 @@ def transfer_evidence(evidence_id):
                                    evidence=evidence,
                                    investigators=investigators)
 
-        transfer_time = datetime.now(timezone.utc).replace(tzinfo=None)
+        transfer_time = (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None)
 
         payload = _build_transfer_payload(
             evidence_id=evidence.id,

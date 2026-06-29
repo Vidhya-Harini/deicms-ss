@@ -11,6 +11,7 @@ The receiving party can verify authenticity by:
   1. Checking each file's SHA-256 against manifest.json
   2. Verifying manifest_signature.hex against the exporter's public key
 """
+from datetime import timedelta
 import hashlib
 import io
 import json
@@ -71,7 +72,7 @@ def export_case(case_id):
         'case_title': case.title,
         'exported_by': current_user.full_name,
         'exported_by_id': current_user.id,
-        'exported_at': datetime.now(timezone.utc).replace(tzinfo=None).isoformat(),
+        'exported_at': (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None).isoformat(),
         'evidence_count': len(evidence_items),
         'files': []
     }
@@ -80,7 +81,7 @@ def export_case(case_id):
     audit_lines = [
         f"DEICMS — Audit Trail Export for Case {case.case_number}",
         f"Case: {case.title}",
-        f"Exported by: {current_user.full_name} at {datetime.now(timezone.utc).replace(tzinfo=None).isoformat()}",
+        f"Exported by: {current_user.full_name} at {(datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None).isoformat()}",
         "=" * 70,
         ""
     ]
@@ -191,7 +192,7 @@ def export_case(case_id):
     db.session.add(audit)
     db.session.commit()
 
-    filename = f"{case.case_number}_export_{datetime.now(timezone.utc).replace(tzinfo=None).strftime('%Y%m%d_%H%M%S')}.zip"
+    filename = f"{case.case_number}_export_{(datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None).strftime('%Y%m%d_%H%M%S')}.zip"
     return send_file(
         zip_buffer,
         mimetype='application/zip',

@@ -22,6 +22,7 @@ Each gap is tagged as:
     Inferred   — best candidate above the plausibility threshold
     Unresolved — no candidate scored above the threshold
 """
+from datetime import timedelta
 from dataclasses import dataclass, field
 from datetime import datetime, timezone, timedelta
 from typing import List, Optional
@@ -77,7 +78,7 @@ class ReconstructionReport:
     unresolved_gaps: int
     chain_confidence_score: float    # (confirmed + inferred) / total_expected * 100
     reconstructed_chain: List[ChainLink] = field(default_factory=list)
-    ran_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc).replace(tzinfo=None))
+    ran_at: datetime = field(default_factory=lambda: (datetime.now(timezone.utc) + timedelta(hours=2)).replace(tzinfo=None))
 
     def to_dict(self) -> dict:
         return {
